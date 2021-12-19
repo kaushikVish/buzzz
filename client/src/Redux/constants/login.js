@@ -1,0 +1,3 @@
+export const LOGIN_WITH_GOOGLE = "LOGIN_WITH_GOOGLE";
+export const LOGIN_FAILED = "LOGIN_FAILED";
+export const LOGIN_SUCCESS = "LOGIN_SUCCESS";

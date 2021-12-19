@@ -1,3 +1,5 @@
-const router= require('express').Router();
+const router = require("express").Router();
 
-router.get('/login',user.login)
+router.get("/login", user.login);
+
+module.exports = router;
