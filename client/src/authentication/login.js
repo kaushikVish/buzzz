@@ -1,24 +1,38 @@
-import React from "react";
+import React, { useEffect } from "react";
 import classes from "./login.module.css";
 import GoogleLogin from "react-google-login";
 import { ToastContainer, toast } from "react-toastify";
 import { connect } from "react-redux";
 import { loginWithGoogle } from "../Redux/actions/login";
+import { useNavigate } from "react-router-dom";
 
-const Login = ({ loginWithGoogle, loading, message }) => {
+const Login = ({
+  loginWithGoogle,
+  loading,
+  message,
+  redirect,
+  allowRedirect,
+  token,
+}) => {
+  let navigate = useNavigate();
+
+  useEffect(() => {
+    if (token && allowRedirect) {
+      navigate(redirect);
+    }
+  }, [redirect, allowRedirect]);
+
   const handleGmailSuccess = (response) => {
     let data = {
-      tokenID: response.tokenId,
-      googleData: response.profileObj,
+      tokenId: response.tokenId,
     };
     loginWithGoogle(data);
-    // console.log("data ============>", data);
-    toast.success("Login Successfull");
+    toast.success(message);
   };
 
   const handleGmailFailure = (error) => {
     console.log("error ========>", error);
-    toast.error("Login failed");
+    toast.error(message);
   };
 
   return (
@@ -58,8 +72,8 @@ const Login = ({ loginWithGoogle, loading, message }) => {
 };
 
 const mapStateToProps = ({ auth }) => {
-  const { loading, message } = auth;
-  return { loading, message };
+  const { loading, message, redirect, allowRedirect, token } = auth;
+  return { loading, message, redirect, allowRedirect, token };
 };
 
 const mapDispatchToProps = {

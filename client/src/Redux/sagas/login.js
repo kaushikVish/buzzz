@@ -7,10 +7,13 @@ export function* loginWithGoogle() {
   yield takeEvery(LOGIN_WITH_GOOGLE, function* ({ payload }) {
     try {
       const response = yield call(services.loginWithGoogle, payload);
+
       if (response.ok) {
-        yield put(loginSuccess("login successfull"));
-      }else{
-        yield put(loginFailed("login falied"))
+        console.log("response ============>", response);
+        yield put(loginSuccess(response));
+        localStorage.setItem('AUTH_TOKEN',response.token)
+      } else {
+        yield put(loginFailed("login falied"));
       }
     } catch (error) {
       console.log("error in sagas", error);

@@ -1,10 +1,17 @@
-import { LOGIN_WITH_GOOGLE,LOGIN_FAILED,LOGIN_SUCCESS } from "../constants/login";
+import {
+  LOGIN_WITH_GOOGLE,
+  LOGIN_FAILED,
+  LOGIN_SUCCESS,
+} from "../constants/login";
 
 const initState = {
   loading: false,
   message: "",
   showMessage: false,
-  token: "",
+  token: localStorage.getItem("AUTH_TOKEN"),
+  user: {},
+  redirect:"",
+  allowRedirect:false
 };
 
 const auth = (state = initState, action) => {
@@ -14,23 +21,29 @@ const auth = (state = initState, action) => {
       return {
         ...state,
         loading: true,
-        token: action.token,
       };
     }
     case LOGIN_SUCCESS:
-      return{
+      console.log("action payload",action.payload)
+      return {
         ...state,
-        message:action.payload
-      }
+        message: "Login Successfull",
+        token: action.payload.token,
+        user: action.payload.newUser,
+        loading: false,
+        redirect:'/feed',
+        allowRedirect:true
+      };
 
     case LOGIN_FAILED:
-      console.log("message",action.payload)
-      return{
+      console.log("message", action.payload);
+      return {
         ...state,
-        message:action.payload
-      }
+        loading: false,
+        message: action.payload,
+      };
     default:
-      console.log("default reducer",action.type)
+      console.log("default reducer", action.type);
       return state;
   }
 };
