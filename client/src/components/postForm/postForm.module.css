@@ -1,0 +1,61 @@
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
+/* .postForm {
+    display: flex;
+    flex-direction: column;
+    justify-content:space-between;
+} */
+
+.header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  font-size: x-large;
+  font-weight: bolder;
+}
+
+.profileDetails{
+    margin: 10px 0px;
+}
+
+.profileDetails img {
+  border-radius: 25px;
+  height: 30px;
+  width: 30px;
+  margin-right: 5px;
+}
+
+.profileDetails span{
+    font-weight: bolder;
+}
+
+.textarea{
+    margin:50px 0px;
+}
+
+.fileHandler span{
+    font-weight: bolder;
+}
+
+.fileHandler input{
+    margin-left: 90px;
+}
+
+.button{
+    padding: 2px 20px;
+    border-radius: 25px;
+    font-weight: bolder;
+    color: white;
+    background-color: #0000ff;
+    border:1px solid #0000ff;
+}
+
+.footer{
+    display: flex;
+    flex-direction: row;
+    justify-content: end;
+}

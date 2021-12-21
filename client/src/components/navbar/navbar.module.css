@@ -11,6 +11,7 @@
   background-color: white;
   padding: 0px 10px;
   height: 45px;
+  margin-bottom: 20px;
 }
 
 .left_sidebar {
@@ -27,19 +28,24 @@
 
 .right_sidebar img {
   border-radius: 25px;
+  height: 30px;
+  width: 30px;
 }
 
-#user_icon{
-    padding: 5px 4px;
-    border-radius: 25px;
-    background-color: whitesmoke;
+#user_icon {
+  padding: 0px 4px;
+  margin-top: 5px;
+  border-radius: 25px;
+  background-color: whitesmoke;
 }
 
-#messenger_icon{
-    padding: 5px px;
+#messenger_icon {
+  padding: 5px 5px;
+  margin: 0px 5px;
+  border-radius: 25px;
 }
 
 .right_sidebar span {
-    padding: 6px 8px 8px 0px ;
+  padding: 6px 8px 8px 0px;
   background-color: white;
 }

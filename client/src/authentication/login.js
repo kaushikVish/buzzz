@@ -28,6 +28,7 @@ const Login = ({
     };
     loginWithGoogle(data);
     toast.success(message);
+    navigate(redirect);
   };
 
   const handleGmailFailure = (error) => {
