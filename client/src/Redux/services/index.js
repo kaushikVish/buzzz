@@ -31,16 +31,34 @@ services.postStory = async (postData) => {
       postText: postData.text,
     };
     console.log("half work is done ===>", post);
-    const response = await fetch("http://localhost:8000/createPost", {
+    const response = await fetch("http://localhost:8000/create_post", {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("AUTH_TOKEN")}`,
+      },
       body: JSON.stringify(post),
     });
-    const result = response.json();
+    const result = await response.json();
     console.log("response of createPost backend", response);
     return result;
   } catch (err) {
-    console.log("errror in services", err);
+    console.log("errror in services in posting story", err);
+    return err;
+  }
+};
+
+services.getPosts = async () => {
+  try {
+    const response = await fetch("http://127.0.0.1:8000/getPosts", {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("AUTH_TOKEN")}`,
+      },
+    });
+    const result = await response.json();
+    return result;
+  } catch (err) {
+    console.log("errror in services in getting posts", err);
     return err;
   }
 };

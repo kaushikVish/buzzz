@@ -1,3 +1,4 @@
+require('dotenv').config();
 const express = require("express");
 var routes = require("./Routes/index");
 const cors = require("cors");
@@ -11,7 +12,7 @@ require("./dbConnection");
 app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-// app.use(cookieParser);
+app.use(cookieParser());
 
 app.use(routes);
 
