@@ -35,12 +35,12 @@ services.postStory = async (postData) => {
       method: "POST",
       headers: {
         Authorization: `Bearer ${localStorage.getItem("AUTH_TOKEN")}`,
+        "Content-Type": "application/json",
       },
       body: JSON.stringify(post),
     });
-    const result = await response.json();
     console.log("response of createPost backend", response);
-    return result;
+    return response;
   } catch (err) {
     console.log("errror in services in posting story", err);
     return err;
@@ -53,9 +53,14 @@ services.getPosts = async () => {
       method: "GET",
       headers: {
         Authorization: `Bearer ${localStorage.getItem("AUTH_TOKEN")}`,
+        "Content-Type": "application/json",
       },
     });
-    const result = await response.json();
+    let post = await response.json();
+    const result={
+      post,
+      status:200
+    }
     return result;
   } catch (err) {
     console.log("errror in services in getting posts", err);

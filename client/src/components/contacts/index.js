@@ -31,8 +31,8 @@ const Contacts = () => {
         onSearch={handleSearch}
         style={{ width: 180, marginLeft: 5 }}
       />
-      {friendList.map((user) => (
-        <div className={styles.user}>{user}</div>
+      {friendList.map((user,index) => (
+        <div key={index} className={styles.user}>{user}</div>
       ))}
     </div>
   );

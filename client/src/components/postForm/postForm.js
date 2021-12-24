@@ -4,8 +4,9 @@ import Modal from "../modal/modal";
 import styles from "./postForm.module.css";
 import { connect } from "react-redux";
 import { postStory } from "../../Redux/actions/feed";
+import { ToastContainer, toast } from "react-toastify";
 
-const PostForm = ({ username, imgUrl, onClose, postStory }) => {
+const PostForm = ({ username, imgUrl, onClose, postStory, feed }) => {
   const { TextArea } = Input;
 
   const [selectedFile, setselectedFile] = useState(null);
@@ -27,10 +28,8 @@ const PostForm = ({ username, imgUrl, onClose, postStory }) => {
     };
 
     postStory(postData);
-
-    // const file=await res.json();
-
-    // console.log(file.secure_url)
+    toast.success(feed.message);
+    onClose();
   };
 
   const textHandler = (e) => {
@@ -41,6 +40,7 @@ const PostForm = ({ username, imgUrl, onClose, postStory }) => {
   return (
     <>
       <Modal onClose={onClose}>
+        <ToastContainer />
         <div className={styles.postForm}>
           <div className={styles.header}>
             <span>Create a post</span>
@@ -73,8 +73,12 @@ const PostForm = ({ username, imgUrl, onClose, postStory }) => {
   );
 };
 
+const mapStateToProps = ({ feed }) => {
+  return { feed };
+};
+
 const mapDispatchToProps = {
   postStory,
 };
 
-export default connect(null, mapDispatchToProps)(PostForm);
+export default connect(mapStateToProps, mapDispatchToProps)(PostForm);

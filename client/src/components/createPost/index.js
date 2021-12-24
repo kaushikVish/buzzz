@@ -26,7 +26,7 @@ const CreatePost = ({ username, imgUrl }) => {
           placeholder=" Start a post"
         />
         <button id={styles.button} onClick={showPostForm}>
-          <i id={styles.photo_icon} class="fas fa-photo-video"></i>Photo/Video
+          <i id={styles.photo_icon} className="fas fa-photo-video"></i>Photo/Video
         </button>
       </div>
     </>

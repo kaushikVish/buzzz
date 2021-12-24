@@ -17,11 +17,11 @@ const Navbar = ({user}) => {
         <span>{user.userName}</span>
         <i
           id={styles.messenger_icon}
-          class="fab fa-facebook-messenger fa-1x"
+          className="fab fa-facebook-messenger fa-1x"
         ></i>
         <i
           id={styles.user_icon}
-          class="fa fa-user-plus fa-1x"
+          className="fa fa-user-plus fa-1x"
           aria-hidden="true"
         ></i>
       </div>

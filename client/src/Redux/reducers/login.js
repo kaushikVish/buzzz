@@ -17,14 +17,14 @@ const initState = {
 const auth = (state = initState, action) => {
   switch (action.type) {
     case LOGIN_WITH_GOOGLE: {
-      console.log("reducresss comes");
+      // console.log("reducresss comes");
       return {
         ...state,
         loading: true,
       };
     }
     case LOGIN_SUCCESS:
-      console.log("action payload",action.payload)
+      // console.log("action payload",action.payload)
       return {
         ...state,
         message: "Login Successfull",
@@ -36,14 +36,14 @@ const auth = (state = initState, action) => {
       };
 
     case LOGIN_FAILED:
-      console.log("message", action.payload);
+      // console.log("message", action.payload);
       return {
         ...state,
         loading: false,
         message: action.payload,
       };
     default:
-      console.log("default reducer", action.type);
+      // console.log("default reducer", action.type);
       return state;
   }
 };

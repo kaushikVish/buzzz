@@ -1,0 +1,86 @@
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
+.postCard {
+  width: 600px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  background-color: white;
+  border-radius: 15px;
+  padding: 20px 20px;
+  margin: 40px 0px;
+}
+
+.header {
+  background-color: white;
+}
+
+.header img {
+  width: 50px;
+  height: 50px;
+  border-radius: 25px;
+  background-color: white;
+}
+
+.header span {
+  font-weight: 900;
+  padding: 0px 10px;
+  background-color: white;
+}
+
+.content {
+  /* padding: 0px 20px; */
+  background-color: white;
+}
+
+.content div {
+  padding: 0px 10px;
+  background-color: white;
+}
+
+.content img {
+  padding-left: 5px;
+  width: 550px;
+  height: 350px;
+  background-color: white;
+  border-radius: 10px;
+}
+
+.footer {
+  margin-top: 10px;
+  background-color: white;
+}
+
+.footer button {
+  padding: 8px 60px;
+  border-left: none;
+  border-right: none;
+}
+
+.addComment {
+  display: flex;
+  flex-direction: row;
+  text-align: center;
+  margin-top: 20px;
+  background-color: white;
+}
+
+.addComment input {
+  padding: 8px;
+  width: 450px;
+  border: none;
+  margin-right: 5px;
+}
+
+.addComment button{
+    padding: 8px 25px;
+    font-weight: bolder;
+    border-radius: 25px;
+    color: white;
+    border:none;
+    background-color: blue;
+}

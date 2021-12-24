@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import classes from "./login.module.css";
+import styles from "./login.module.css";
 import GoogleLogin from "react-google-login";
 import { ToastContainer, toast } from "react-toastify";
 import { connect } from "react-redux";
@@ -39,22 +39,22 @@ const Login = ({
   return (
     <>
       <ToastContainer />
-      <div className={classes.box}>
+      <div className={styles.box}>
         <img
           src="/assests/ttn_logo.jpeg"
           alt="TTN Logo"
           height="80px"
           width="100px"
         />
-        <span id={classes.first_span}>
+        <span id={styles.first_span}>
           Enter your Details and Start your journey with us
         </span>
-        <span id={classes.second_span}>Don't stop until you are proud.</span>
+        <span id={styles.second_span}>Don't stop until you are proud.</span>
         <GoogleLogin
           clientId="385631715575-ra80jq8o1g4589v6erg0d1qu2ncsvqvd.apps.googleusercontent.com"
           render={(renderProps) => (
             <button
-              id={classes.button}
+              id={styles.button}
               onClick={renderProps.onClick}
               // disabled={renderProps.disabled}
             >
