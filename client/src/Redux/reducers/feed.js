@@ -1,10 +1,16 @@
 import {
   GET_POSTS,
+  GET_POSTS_SUCCESSFULLY,
+  GET_POSTS_FAILED,
   POST_STORY,
   POST_STORY_SUCCESSFULLY,
   POST_STORY_FAILED,
-  GET_POSTS_SUCCESSFULLY,
-  GET_POSTS_FAILED,
+  POST_COMMENT,
+  POST_COMMENT_SUCCESSFULLY,
+  POST_COMMENT_FAILED,
+  POST_REACTION,
+  POST_REACTION_SUCCESSFULLY,
+  POST_REACTION_FAILED,
 } from "../constants/feed";
 
 const initState = {
@@ -43,12 +49,6 @@ const feed = (state = initState, action) => {
       };
 
     case GET_POSTS_SUCCESSFULLY:
-      // let data = state.posts;
-      // data = action.payload.map((item,index) => {
-      //   console.log("item ====>",item)
-      //   return item;
-      // });
-      // console.log("action payload success", data);
       return {
         ...state,
         loading: false,
@@ -57,6 +57,46 @@ const feed = (state = initState, action) => {
       };
 
     case GET_POSTS_FAILED:
+      return {
+        ...state,
+        loading: false,
+        message: action.payload,
+      };
+
+    case POST_REACTION:
+      return {
+        ...state,
+        loading: true,
+      };
+
+    case POST_REACTION_SUCCESSFULLY:
+      return {
+        ...state,
+        loading: false,
+        message: action.payload,
+      };
+
+    case POST_REACTION_FAILED:
+      return {
+        ...state,
+        loading: false,
+        message: action.payload,
+      };
+
+    case POST_COMMENT:
+      return {
+        ...state,
+        loading: true,
+      };
+
+    case POST_COMMENT_SUCCESSFULLY:
+      return {
+        ...state,
+        loading: false,
+        message: action.payload,
+      };
+
+    case POST_COMMENT_FAILED:
       return {
         ...state,
         loading: false,

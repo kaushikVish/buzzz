@@ -5,24 +5,17 @@ import Navbar from "../../components/navbar/index";
 import styles from "./feed.module.css";
 import { connect } from "react-redux";
 import UserProfile from "../../components/userProfile/userProfile";
-import { getPosts } from "../../Redux/actions/feed";
+import { getPosts, postReaction, postComment } from "../../Redux/actions/feed";
 import AllPost from "../../components/allPosts";
 
-const Feed = ({ user, feed, getPosts }) => {
+const Feed = ({ user, feed, getPosts, likePost, dislikePost, postComment }) => {
   const [posts, setPosts] = useState([]);
 
   useEffect(() => {
     console.log("hey in use effect");
     getPosts();
     setPosts(feed.posts);
-    console.log("agaaainnnnnnnn", feed.posts);
   }, []);
-
-  console.log("posts ===>", posts);
-  console.log("=====>", Object.keys(posts));
-  // let a=posts.map((item,index)=>{
-  //   console.log("item =======>",item._id)
-  // })
 
   return (
     <>
@@ -36,11 +29,16 @@ const Feed = ({ user, feed, getPosts }) => {
           {feed.posts.length ? (
             feed.posts.map((item, index) => (
               <div key={item._id}>
-                <AllPost story={item} />
+                <AllPost
+                  story={item}
+                  likePost={likePost}
+                  dislikePost={dislikePost}
+                  postComment={postComment}
+                />
               </div>
             ))
           ) : (
-            <span>heloo {posts}</span>
+            <span>No Posts {posts}</span>
           )}
         </div>
         <div className={styles.rightbar}>
@@ -53,12 +51,13 @@ const Feed = ({ user, feed, getPosts }) => {
 
 const mapStateToProps = ({ auth, feed }) => {
   const { user } = auth;
-  // console.log("feed in navbar", feed);
   return { user, feed };
 };
 
 const mapDispatchToProps = {
   getPosts,
+  postReaction,
+  postComment,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Feed);

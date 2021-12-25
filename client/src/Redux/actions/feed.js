@@ -1,10 +1,16 @@
 import {
   POST_STORY,
-  GET_POSTS,
   POST_STORY_SUCCESSFULLY,
   POST_STORY_FAILED,
+  GET_POSTS,
   GET_POSTS_SUCCESSFULLY,
   GET_POSTS_FAILED,
+  POST_REACTION,
+  POST_REACTION_SUCCESSFULLY,
+  POST_REACTION_FAILED,
+  POST_COMMENT,
+  POST_COMMENT_SUCCESSFULLY,
+  POST_COMMENT_FAILED,
 } from "../constants/feed";
 
 export const postStory = (data) => {
@@ -45,6 +51,49 @@ export const getPostSuccessfully = (data) => {
 export const getPostFailed = (message) => {
   return {
     type: GET_POSTS_FAILED,
+    payload: message,
+  };
+};
+
+export const postReaction = (data) => {
+  // console.log("hey in action")
+  return {
+    type: POST_REACTION,
+    payload: data,
+  };
+};
+
+export const postReactionSuccessfully = (message) => {
+  return {
+    type: POST_REACTION_SUCCESSFULLY,
+    payload: message,
+  };
+};
+
+export const postReactionFailed = (message) => {
+  return {
+    type: POST_REACTION_FAILED,
+    payload: message,
+  };
+};
+
+export const postComment = (data) => {
+  return {
+    type: POST_COMMENT,
+    payload: data,
+  };
+};
+
+export const postCommentSuccessfully = (message) => {
+  return {
+    type: POST_COMMENT_SUCCESSFULLY,
+    payload: message,
+  };
+};
+
+export const postCommentFailed = (message) => {
+  return {
+    type: POST_COMMENT_FAILED,
     payload: message,
   };
 };

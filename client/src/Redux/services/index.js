@@ -57,14 +57,49 @@ services.getPosts = async () => {
       },
     });
     let post = await response.json();
-    const result={
+    const result = {
       post,
-      status:200
-    }
+      status: 200,
+    };
     return result;
   } catch (err) {
     console.log("errror in services in getting posts", err);
     return err;
+  }
+};
+
+services.postReaction = async (data) => {
+  try {
+    console.log("data in like post services",data)
+    const response = await fetch("http://127.0.0.1:8000/post_reaction", {
+      method: "POST",
+      body: JSON.stringify(data),
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("AUTH_TOKEN")}`,
+        "Content-Type": "application/json",
+      },
+    });
+    return response;
+  } catch (error) {
+    console.log("error in services ====> ", error);
+    return error;
+  }
+};
+
+services.postComment = async (data) => {
+  try {
+    const response = await fetch("http://127.0.0.1:8000/post_comment", {
+      method: "POST",
+      body: data,
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("AUTH_TOKEN")}`,
+        "Content-Type": "application/json",
+      },
+    });
+    return response;
+  } catch (error) {
+    console.log("error in services ====> ", error);
+    return error;
   }
 };
 

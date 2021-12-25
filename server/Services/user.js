@@ -77,3 +77,81 @@ module.exports.getPosts = async (req, res) => {
     return err;
   }
 };
+
+module.exports.postReaction = async (data) => {
+  try {
+    const { id, reaction, user } = data;
+    const postValid = await postModel.find({ id });
+    console.log("post valid in services =====> ", postValid.length);
+    if (postValid.length) {
+      if (reaction === "like") {
+        await postModel.updateOne(
+          { id },
+          { $pull: { "postReaction.dislike ": user } }
+        );
+
+        await postModel.updateOne(
+          { id },
+          { $addToSet: { "postReaction.like": user } }
+        );
+
+        let message = "liked post successfully";
+        return message;
+      } else if (reaction === "dislike") {
+        await postModel.updateOne(
+          { id },
+          { $pull: { "postReaction.like": user } }
+        );
+
+        await postModel.updateOne(
+          { id },
+          { $addToSet: { "postReaction.dislike": user } }
+        );
+
+        let message = "disliked post successfully";
+        return message;
+      }
+    } else {
+      let message = "post reaction failed";
+      return message;
+    }
+  } catch (error) {
+    console.log("error in services =====> ", error);
+    return error;
+  }
+};
+
+module.exports.postComment = async (data) => {
+  try {
+    const { id, user } = data;
+    const postValid = await postModel.find({ id });
+    if (postValid.length) {
+      await postModel.updateOne({ id }, { $addToSet: { postComments: user } });
+
+      let message = "posted comment successfully";
+      return message;
+    } else {
+      let message = "posted comment failed";
+      return message;
+    }
+  } catch (error) {
+    console.log("error in services =====> ", error);
+    return error;
+  }
+};
+
+module.exports.deleteComment = async (data) => {
+  try {
+    const { postId, commentId } = data;
+    const postValid = await postModel.find({ postId });
+    if (postValid.length) {
+      await postModel.updateOne(
+        { postId },
+        { $pull: { postComments: commentId } }
+      );
+    } else {
+      let message = "delete comment failed";
+      return message;
+    }
+  } catch (error) {}
+};
