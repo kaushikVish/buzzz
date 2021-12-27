@@ -2,6 +2,9 @@ import {
   LOGIN_WITH_GOOGLE,
   LOGIN_FAILED,
   LOGIN_SUCCESS,
+  GET_USER_DETAILS,
+  GET_USER_DETAILS_FAILED,
+  GET_USER_DETAILS_SUCCESSFULLY,
 } from "../constants/login";
 
 const initState = {
@@ -10,8 +13,8 @@ const initState = {
   showMessage: false,
   token: localStorage.getItem("AUTH_TOKEN"),
   user: {},
-  redirect:"",
-  allowRedirect:false
+  redirect: "",
+  allowRedirect: false,
 };
 
 const auth = (state = initState, action) => {
@@ -31,8 +34,8 @@ const auth = (state = initState, action) => {
         token: action.payload.token,
         user: action.payload.newUser,
         loading: false,
-        redirect:'/feed',
-        allowRedirect:true
+        redirect: "/feed",
+        allowRedirect: true,
       };
 
     case LOGIN_FAILED:
@@ -41,6 +44,25 @@ const auth = (state = initState, action) => {
         ...state,
         loading: false,
         message: action.payload,
+      };
+
+    case GET_USER_DETAILS:
+      return {
+        ...state,
+        loading: true,
+      };
+
+    case GET_USER_DETAILS_SUCCESSFULLY:
+      return {
+        ...state,
+        loading: false,
+        user: action.payload,
+      };
+
+    case GET_USER_DETAILS_FAILED:
+      return {
+        ...state,
+        loading: false,
       };
     default:
       // console.log("default reducer", action.type);

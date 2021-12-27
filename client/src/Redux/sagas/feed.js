@@ -38,9 +38,9 @@ export function* postStory() {
 export function* getPosts() {
   yield takeEvery(GET_POSTS, function* () {
     try {
-      console.log("hey in getting post sagas");
+      // console.log("hey in getting post sagas");
       const response = yield call(services.getPosts);
-      console.log("response of get posts =====> ", response);
+      // console.log("response of get posts =====> ", response);
       if (response.status === 200) {
         yield put(getPostSuccessfully(response.post));
       } else {
@@ -51,7 +51,6 @@ export function* getPosts() {
 }
 
 export function* postReaction() {
-  console.log("Hey sagasg like post");
   yield takeEvery(POST_REACTION, function* ({ payload }) {
     try {
       const response = yield call(services.postReaction, payload);

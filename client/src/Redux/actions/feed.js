@@ -35,7 +35,6 @@ export const postStoryFailed = (message) => {
 };
 
 export const getPosts = () => {
-  // console.log("get post in action")
   return {
     type: GET_POSTS,
   };

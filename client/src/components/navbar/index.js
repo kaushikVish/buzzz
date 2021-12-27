@@ -1,7 +1,15 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import styles from "./navbar.module.css";
+import { connect } from "react-redux";
 
-const Navbar = ({user}) => {
+const Navbar = ({ user }) => {
+  let navigate = useNavigate();
+
+  const handleProfilePage = () => {
+    navigate(`/user_profile`);
+  };
+
   return (
     <div className={styles.navbar}>
       <div className={styles.left_sidebar}>
@@ -13,8 +21,8 @@ const Navbar = ({user}) => {
         />
       </div>
       <div className={styles.right_sidebar}>
-        <img src={user.picture} alt=" User Image"/>
-        <span>{user.userName}</span>
+        <img src={user.picture} alt=" User Image" />
+        <button onClick={handleProfilePage}>{user.userName}</button>
         <i
           id={styles.messenger_icon}
           className="fab fa-facebook-messenger fa-1x"
@@ -29,4 +37,9 @@ const Navbar = ({user}) => {
   );
 };
 
-export default Navbar;
+const mapStateToProps = ({ auth }) => {
+  const { user } = auth;
+  return { user };
+};
+
+export default connect(mapStateToProps, null)(Navbar);

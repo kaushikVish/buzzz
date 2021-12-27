@@ -1,10 +1,10 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styles from "./allPosts.module.css";
 
 const AllPost = ({ story, postReaction, postComment }) => {
-  // console.log("story in showing post of", story);
-
-  const [comment, setComment] = useState("");
+  const [comment, setComment] = useState();
+  const [userComments, setUserComments] = useState(story.postComments);
+  const [toggleComment, setToggleComment] = useState(false);
 
   const likeHandler = (id, user) => {
     let data = {
@@ -24,10 +24,11 @@ const AllPost = ({ story, postReaction, postComment }) => {
     postReaction(data);
   };
 
-  const postCommentHandler = (id) => {
+  const postCommentHandler = (id, user) => {
+    user.comment = comment;
     let data = {
       id,
-      comment,
+      user,
     };
     postComment(data);
     setComment("");
@@ -36,6 +37,12 @@ const AllPost = ({ story, postReaction, postComment }) => {
   const commmentHandler = (e) => {
     setComment(e.target.value);
   };
+
+  const toggleCommentHandler = () => {
+    setToggleComment(!toggleComment);
+  };
+
+  // console.log("user comments ===========>", userComments);
 
   return (
     <div className={styles.postCard}>
@@ -54,7 +61,9 @@ const AllPost = ({ story, postReaction, postComment }) => {
         <button onClick={() => dislikeHandler(story._id, story.user)}>
           {story.postReaction.dislike.length} Dislike
         </button>
-        <button>{story.postComments.length}Comment</button>
+        <button onClick={toggleCommentHandler}>
+          {story.postComments.length} Comment
+        </button>
       </div>
       <div className={styles.addComment}>
         <input
@@ -63,8 +72,22 @@ const AllPost = ({ story, postReaction, postComment }) => {
           onChange={commmentHandler}
           placeholder="Enter your comment"
         />
-        <button onClick={() => postCommentHandler(story._id)}>post</button>
+        <button onClick={() => postCommentHandler(story._id, story.user)}>
+          post
+        </button>
       </div>
+
+      {toggleComment && story.postComments.length
+        ? story.postComments.map((item) => (
+            <div className={styles.commentView}>
+              <img src={item.imageUrl} alt="profile pic" />
+              <div className={styles.commentDetails}>
+                <div id={styles.commentUsername}>{item.username}</div>
+                <div id={styles.userComment}>{item.comment}</div>
+              </div>
+            </div>
+          ))
+        : ""}
     </div>
   );
 };

@@ -5,6 +5,11 @@ module.exports.create = async (req, res) => {
   res.send(JSON.stringify(response));
 };
 
+module.exports.getUserDetails = async (req, res) => {
+  const response = await user.getUserDetails(req, res);
+  res.send(JSON.stringify(response));
+};
+
 module.exports.createPost = async (req, res) => {
   const response = await user.createPost(req);
   res.status(200);
@@ -26,7 +31,17 @@ module.exports.postComment = async (req, res) => {
   res.send(JSON.stringify(response));
 };
 
-module.exports.deleteComment = async (req,res) => {
-  const response= await user.deleteComment(req.body);
+module.exports.deleteComment = async (req, res) => {
+  const response = await user.deleteComment(req.body);
   res.send(JSON.stringify(response));
-}
+};
+
+module.exports.suggestedFriends = async (req, res) => {
+  const response = await user.suggestedFriends(req);
+  res.send(JSON.stringify(response));
+};
+
+module.exports.addFriend = async (req, res) => {
+  const response = await user.addFriend(req);
+  res.send(JSON.stringify(response));
+};

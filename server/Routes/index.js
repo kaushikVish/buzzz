@@ -4,7 +4,6 @@ const jwt = require("jsonwebtoken");
 
 //custom middlewares
 const authenticateToken = (req, res, next) => {
-  console.log("requested body", req.body);
   try {
     const token = req.header("authorization").split(" ")[1];
     if (!token) {
@@ -28,10 +27,13 @@ const authenticateToken = (req, res, next) => {
 };
 
 router.post("/login", user.create);
+router.get("/getUserDetails", authenticateToken, user.getUserDetails);
 router.post("/create_post", authenticateToken, user.createPost);
 router.get("/getPosts", authenticateToken, user.getPosts);
 router.post("/post_reaction", authenticateToken, user.postReaction);
 router.post("/post_comment", authenticateToken, user.postComment);
-router.delete("/delete_comment",authenticateToken,user.deleteComment);
+router.delete("/delete_comment", authenticateToken, user.deleteComment);
+router.get("/suggestionFriends", authenticateToken, user.suggestedFriends);
+router.post("/addFriend", authenticateToken, user.addFriend);
 
 module.exports = router;

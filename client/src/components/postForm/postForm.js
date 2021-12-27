@@ -44,7 +44,7 @@ const PostForm = ({ username, imgUrl, onClose, postStory, feed }) => {
         <div className={styles.postForm}>
           <div className={styles.header}>
             <span>Create a post</span>
-            <i class="fa fa-times" aria-hidden="true" onClick={onClose}></i>
+            <i className="fa fa-times" aria-hidden="true" onClick={onClose}></i>
           </div>
           <div className={styles.profileDetails}>
             <img src={imgUrl} alt="img" />

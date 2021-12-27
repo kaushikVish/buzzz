@@ -17,8 +17,8 @@ const Login = ({
   let navigate = useNavigate();
 
   useEffect(() => {
-    if (token && allowRedirect) {
-      navigate(redirect);
+    if (localStorage.getItem("AUTH_TOKEN")) {
+      navigate(`/feed`);
     }
   }, [redirect, allowRedirect]);
 

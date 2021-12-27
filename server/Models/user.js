@@ -17,11 +17,14 @@ const userSchema = new Schema(
     },
     lastName: {
       type: String,
-      required: true,
     },
     picture: {
       type: String,
       required: true,
+    },
+    friends: {
+      type: Array,
+      default: [],
     },
   },
   {
@@ -62,6 +65,7 @@ const postSchema = new Schema(
   {
     timestamps: true,
     versionKey: false,
+    _id: true,
   }
 );
 

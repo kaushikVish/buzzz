@@ -1,8 +1,9 @@
+var mongoose = require("mongoose");
 const { userModel, postModel } = require("../Models/user");
 const { OAuth2Client } = require("google-auth-library");
 const client = new OAuth2Client(process.env.CLIENT_ID);
 const jwt = require("jsonwebtoken");
-const { response } = require("express");
+var _id = mongoose.Types.ObjectId();
 
 module.exports.create = async ({ tokenId }) => {
   const ticket = await client.verifyIdToken({
@@ -46,8 +47,69 @@ module.exports.create = async ({ tokenId }) => {
   }
 };
 
+//used in creating dummy users
+
+// module.exports.create = async ({
+//   email,
+//   userName,
+//   firstName,
+//   lastName,
+//   picture,
+// }) => {
+//   let newUser=await userModel.create({
+//     email,
+//     userName,
+//     firstName,
+//     lastName,
+//     picture,
+//   });
+//   return {newUser,message:"New User Created"}
+// };
+
+module.exports.getUserDetails = async (req, res) => {
+  try {
+    console.log("req user =======>", req.user);
+    let userDetails = await userModel.findById(req.user);
+
+    return userDetails;
+  } catch (error) {
+    console.log("whats happening ", error);
+    return error;
+  }
+};
+
+module.exports.suggestedFriends = async (req) => {
+  try {
+    let all_users = await userModel.find();
+    console.log("req users ====>", req.user);
+    let user = await userModel.findById(req.user);
+    // if(!user.friends.length){
+    //   return all_users;
+    // }
+    let newData = [...all_users, ...user.friends];
+    const filteredData = newData.reduce((a, e) => {
+      a[e.id] = ++a[e.id] || 0;
+      return a;
+    }, {});
+    let result = newData.filter((e) => filteredData[e.id]);
+    console.log("filtered data ======> ", result);
+    return result;
+  } catch (error) {
+    console.log("errror ======>", error);
+    return error;
+  }
+};
+
+module.exports.addFriend = async (req) => {
+  try {
+    return {};
+  } catch (error) {
+    return error;
+  }
+};
+
 module.exports.createPost = async (req, res) => {
-  console.log("req in services", req.body);
+  // console.log("req of create post in services", req.body);
   try {
     let user_response = await userModel.findById(req.user);
     // console.log(user_response.userName, "   ", user_response.picture);
@@ -81,32 +143,28 @@ module.exports.getPosts = async (req, res) => {
 module.exports.postReaction = async (data) => {
   try {
     const { id, reaction, user } = data;
-    const postValid = await postModel.find({ id });
-    console.log("post valid in services =====> ", postValid.length);
-    if (postValid.length) {
+    const postValid = await postModel.findById(id);
+    console.log("post valid in services =====> ", data);
+    if (postValid !== undefined) {
       if (reaction === "like") {
-        await postModel.updateOne(
-          { id },
-          { $pull: { "postReaction.dislike ": user } }
-        );
+        await postModel.findByIdAndUpdate(id, {
+          $pull: { "postReaction.dislike": user },
+        });
 
-        await postModel.updateOne(
-          { id },
-          { $addToSet: { "postReaction.like": user } }
-        );
+        await postModel.findByIdAndUpdate(id, {
+          $addToSet: { "postReaction.like": user },
+        });
 
         let message = "liked post successfully";
         return message;
       } else if (reaction === "dislike") {
-        await postModel.updateOne(
-          { id },
-          { $pull: { "postReaction.like": user } }
-        );
+        await postModel.findByIdAndUpdate(id, {
+          $pull: { "postReaction.like": user },
+        });
 
-        await postModel.updateOne(
-          { id },
-          { $addToSet: { "postReaction.dislike": user } }
-        );
+        await postModel.findByIdAndUpdate(id, {
+          $addToSet: { "postReaction.dislike": user },
+        });
 
         let message = "disliked post successfully";
         return message;
@@ -124,9 +182,12 @@ module.exports.postReaction = async (data) => {
 module.exports.postComment = async (data) => {
   try {
     const { id, user } = data;
-    const postValid = await postModel.find({ id });
-    if (postValid.length) {
-      await postModel.updateOne({ id }, { $addToSet: { postComments: user } });
+    const postValid = await postModel.findById(id);
+    console.log("find ==>", postValid);
+    if (postValid) {
+      await postModel.findByIdAndUpdate(id, {
+        $addToSet: { postComments: user },
+      });
 
       let message = "posted comment successfully";
       return message;
@@ -142,13 +203,14 @@ module.exports.postComment = async (data) => {
 
 module.exports.deleteComment = async (data) => {
   try {
-    const { postId, commentId } = data;
-    const postValid = await postModel.find({ postId });
-    if (postValid.length) {
-      await postModel.updateOne(
-        { postId },
-        { $pull: { postComments: commentId } }
-      );
+    const { postId, user } = data;
+    const postValid = await postModel.findById(postId);
+    if (postValid) {
+      let response = await postModel.findByIdAndUpdate(postId, {
+        $pull: { postComments: { user } },
+      });
+      let message = "delete comment success";
+      return { response, message };
     } else {
       let message = "delete comment failed";
       return message;

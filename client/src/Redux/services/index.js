@@ -16,6 +16,25 @@ services.loginWithGoogle = async (data) => {
   }
 };
 
+services.getUserDetails = async (data) => {
+  try {
+    const response = await fetch("http://localhost:8000/getUserDetails", {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("AUTH_TOKEN")}`,
+        "Content-Type": "application/json",
+      },
+    });
+    let result = await response.json();
+    let status=response.status;
+    console.log("result of getting user ====> ", result);
+    return {result,status};
+  } catch (error) {
+    console.log("err in services of getting user details ", error);
+    return error;
+  }
+};
+
 services.postStory = async (postData) => {
   try {
     const res = await fetch(
@@ -70,7 +89,7 @@ services.getPosts = async () => {
 
 services.postReaction = async (data) => {
   try {
-    console.log("data in like post services",data)
+    console.log("data in like post services", data);
     const response = await fetch("http://127.0.0.1:8000/post_reaction", {
       method: "POST",
       body: JSON.stringify(data),
@@ -90,7 +109,7 @@ services.postComment = async (data) => {
   try {
     const response = await fetch("http://127.0.0.1:8000/post_comment", {
       method: "POST",
-      body: data,
+      body: JSON.stringify(data),
       headers: {
         Authorization: `Bearer ${localStorage.getItem("AUTH_TOKEN")}`,
         "Content-Type": "application/json",

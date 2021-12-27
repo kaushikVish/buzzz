@@ -4,35 +4,47 @@ import CreatePost from "../../components/createPost/index";
 import Navbar from "../../components/navbar/index";
 import styles from "./feed.module.css";
 import { connect } from "react-redux";
-import UserProfile from "../../components/userProfile/userProfile";
+import MiniProfile from "../../components/miniProfile/miniProfile";
 import { getPosts, postReaction, postComment } from "../../Redux/actions/feed";
 import AllPost from "../../components/allPosts";
+import { getUserDetails } from "../../Redux/actions/login";
 
-const Feed = ({ user, feed, getPosts, likePost, dislikePost, postComment }) => {
+const Feed = ({
+  user,
+  feed,
+  getPosts,
+  postReaction,
+  postComment,
+  getUserDetails,
+}) => {
   const [posts, setPosts] = useState([]);
 
   useEffect(() => {
-    console.log("hey in use effect");
+    if (localStorage.getItem("AUTH_TOKEN")) {
+      getUserDetails();
+    }
+  }, []);
+
+  useEffect(() => {
     getPosts();
     setPosts(feed.posts);
-  }, []);
+  }, [feed.posts]);
 
   return (
     <>
       <Navbar user={user} />
       <div className={styles.body}>
         <div className={styles.leftbar}>
-          <UserProfile username={user.userName} imgUrl={user.picture} />
+          <MiniProfile username={user.userName} imgUrl={user.picture} />
         </div>
         <div className={styles.mainContent}>
           <CreatePost username={user.userName} imgUrl={user.picture} />
-          {feed.posts.length ? (
-            feed.posts.map((item, index) => (
+          {posts.length ? (
+            posts.map((item) => (
               <div key={item._id}>
                 <AllPost
                   story={item}
-                  likePost={likePost}
-                  dislikePost={dislikePost}
+                  postReaction={postReaction}
                   postComment={postComment}
                 />
               </div>
@@ -58,6 +70,7 @@ const mapDispatchToProps = {
   getPosts,
   postReaction,
   postComment,
+  getUserDetails,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Feed);
