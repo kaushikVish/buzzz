@@ -1,11 +1,10 @@
 import { all, takeEvery, put, fork, call } from "redux-saga/effects";
 import {
   GET_POSTS,
-  LIKE_POST,
-  DISLIKE_POST,
   POST_STORY,
   POST_COMMENT,
   POST_REACTION,
+  SUGGESTED_FRIENDS,
 } from "../constants/feed";
 import {
   postStorySuccessfully,
@@ -16,6 +15,8 @@ import {
   postReactionFailed,
   postCommentSuccessfully,
   postCommentFailed,
+  getSuggestedFriendsSuccessfully,
+  getSuggestedFriendsFailed,
 } from "../actions/feed";
 import services from "../services/index";
 
@@ -41,12 +42,15 @@ export function* getPosts() {
       // console.log("hey in getting post sagas");
       const response = yield call(services.getPosts);
       // console.log("response of get posts =====> ", response);
-      if (response.status === 200) {
+      // debugger;
+      if (response.status==200) {
         yield put(getPostSuccessfully(response.post));
       } else {
         yield put(getPostFailed("Fetching post failed"));
       }
-    } catch (error) {}
+    } catch (error) {
+      console.log("error in fecthing post sagas", error);
+    }
   });
 }
 
@@ -80,11 +84,32 @@ export function* postComment() {
   });
 }
 
+export function* getSuggestedFriends() {
+  yield takeEvery(SUGGESTED_FRIENDS, function* () {
+    try {
+      const response = yield call(services.getSuggestedFriends);
+      if (response.status === 200) {
+        yield put(getSuggestedFriendsSuccessfully(response.data));
+      } else {
+        yield put(
+          getSuggestedFriendsFailed("Failed to fetch suggestion of friends")
+        );
+      }
+    } catch (error) {
+      console.log("sagas error in suggested friends ", error);
+      yield put(
+        getSuggestedFriendsFailed("Failed to fetch suggestion of friends")
+      );
+    }
+  });
+}
+
 export default function* rootSaga() {
   yield all([
     fork(postStory),
     fork(getPosts),
     fork(postReaction),
     fork(postComment),
+    fork(getSuggestedFriends),
   ]);
 }

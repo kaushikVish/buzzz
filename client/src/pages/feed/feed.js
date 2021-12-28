@@ -8,6 +8,7 @@ import MiniProfile from "../../components/miniProfile/miniProfile";
 import { getPosts, postReaction, postComment } from "../../Redux/actions/feed";
 import AllPost from "../../components/allPosts";
 import { getUserDetails } from "../../Redux/actions/login";
+import SuggestedFriends from '../../components/suggestedFriends'
 
 const Feed = ({
   user,
@@ -17,44 +18,47 @@ const Feed = ({
   postComment,
   getUserDetails,
 }) => {
-  const [posts, setPosts] = useState([]);
+
+  const [posts,setPosts] = useState(feed.posts);
 
   useEffect(() => {
     if (localStorage.getItem("AUTH_TOKEN")) {
       getUserDetails();
+      getPosts();
     }
   }, []);
 
   useEffect(() => {
     getPosts();
-    setPosts(feed.posts);
-  }, [feed.posts]);
+    setPosts(feed.posts)
+  }, [posts]);
 
   return (
     <>
-      <Navbar user={user} />
+      <Navbar />
       <div className={styles.body}>
         <div className={styles.leftbar}>
           <MiniProfile username={user.userName} imgUrl={user.picture} />
         </div>
         <div className={styles.mainContent}>
           <CreatePost username={user.userName} imgUrl={user.picture} />
-          {posts.length ? (
-            posts.map((item) => (
+          {feed.posts.length ? (
+            feed.posts.map((item) => (
               <div key={item._id}>
                 <AllPost
                   story={item}
-                  postReaction={postReaction}
+                  getPosts={getPosts}
                   postComment={postComment}
                 />
               </div>
             ))
           ) : (
-            <span>No Posts {posts}</span>
+            <span>No Posts</span>
           )}
         </div>
         <div className={styles.rightbar}>
           <Contacts />
+          <SuggestedFriends/>
         </div>
       </div>
     </>

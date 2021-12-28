@@ -26,9 +26,9 @@ services.getUserDetails = async (data) => {
       },
     });
     let result = await response.json();
-    let status=response.status;
-    console.log("result of getting user ====> ", result);
-    return {result,status};
+    let status = response.status;
+    // console.log("result of getting user ====> ", result);
+    return { result, status };
   } catch (error) {
     console.log("err in services of getting user details ", error);
     return error;
@@ -76,6 +76,7 @@ services.getPosts = async () => {
       },
     });
     let post = await response.json();
+    // console.log("====>",post)
     const result = {
       post,
       status: 200,
@@ -118,6 +119,23 @@ services.postComment = async (data) => {
     return response;
   } catch (error) {
     console.log("error in services ====> ", error);
+    return error;
+  }
+};
+
+services.getSuggestedFriends = async (data) => {
+  try {
+    const response = await fetch("http://localhost:8000/suggestionFriends", {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("AUTH_TOKEN")}`,
+        "Content-Type": "application/json",
+      },
+    });
+    let result = await response.json();
+    result.status = response.status;
+    return result;
+  } catch (error) {
     return error;
   }
 };

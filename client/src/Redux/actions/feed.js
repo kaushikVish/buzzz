@@ -11,6 +11,9 @@ import {
   POST_COMMENT,
   POST_COMMENT_SUCCESSFULLY,
   POST_COMMENT_FAILED,
+  SUGGESTED_FRIENDS,
+  SUGGESTED_FRIENDS_SUCCESSFULLY,
+  SUGGESTED_FRIENDS_FAILED,
 } from "../constants/feed";
 
 export const postStory = (data) => {
@@ -96,3 +99,23 @@ export const postCommentFailed = (message) => {
     payload: message,
   };
 };
+
+export const getSuggestedFriends = () => {
+  return {
+    type: SUGGESTED_FRIENDS,
+  };
+};
+
+export const getSuggestedFriendsSuccessfully = (data) => {
+  return {
+    type: SUGGESTED_FRIENDS_SUCCESSFULLY,
+    payload:data,
+  }
+}
+
+export const getSuggestedFriendsFailed = (message) => {
+  return {
+    type: SUGGESTED_FRIENDS_FAILED,
+    payload:message,
+  }
+}

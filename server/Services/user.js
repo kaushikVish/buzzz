@@ -81,19 +81,30 @@ module.exports.getUserDetails = async (req, res) => {
 module.exports.suggestedFriends = async (req) => {
   try {
     let all_users = await userModel.find();
-    console.log("req users ====>", req.user);
     let user = await userModel.findById(req.user);
-    // if(!user.friends.length){
+    console.log("req users ====>", user);
+
+    // if (user.friends.length === 0) {
     //   return all_users;
     // }
-    let newData = [...all_users, ...user.friends];
-    const filteredData = newData.reduce((a, e) => {
-      a[e.id] = ++a[e.id] || 0;
-      return a;
-    }, {});
-    let result = newData.filter((e) => filteredData[e.id]);
-    console.log("filtered data ======> ", result);
-    return result;
+
+    const newData = all_users.filter((item) => {
+      if (item.id !== user.id) {
+        // console.log(item.id," ====>  ",user.id)
+        if (user.friends.length !== 0) {
+          for (const index in user.friends) {
+            if (item.userName !== user.friends[index]) {
+              return item;
+            }
+          }
+        } else {
+          return item;
+        }
+      }
+    });
+
+    // console.log("filtered data ======> ", newData);
+    return newData;
   } catch (error) {
     console.log("errror ======>", error);
     return error;
@@ -144,30 +155,41 @@ module.exports.postReaction = async (data) => {
   try {
     const { id, reaction, user } = data;
     const postValid = await postModel.findById(id);
-    console.log("post valid in services =====> ", data);
+    // console.log("post valid in services =====> ", data);
     if (postValid !== undefined) {
       if (reaction === "like") {
         await postModel.findByIdAndUpdate(id, {
           $pull: { "postReaction.dislike": user },
         });
 
-        await postModel.findByIdAndUpdate(id, {
+        let updatedData = await postModel.findByIdAndUpdate(id, {
           $addToSet: { "postReaction.like": user },
         });
 
-        let message = "liked post successfully";
-        return message;
+        let responseData = {
+          message: "disliked post successfully",
+          like: updatedData.postReaction.like.length + 1,
+          dislike: updatedData.postReaction.dislike.length,
+        };
+        console.log("updated user =====> ", responseData);
+
+        return responseData;
       } else if (reaction === "dislike") {
         await postModel.findByIdAndUpdate(id, {
           $pull: { "postReaction.like": user },
         });
 
-        await postModel.findByIdAndUpdate(id, {
+        let updatedData = await postModel.findByIdAndUpdate(id, {
           $addToSet: { "postReaction.dislike": user },
         });
 
-        let message = "disliked post successfully";
-        return message;
+        let responseData = {
+          message: "disliked post successfully",
+          like: updatedData.postReaction.like.length,
+          dislike: updatedData.postReaction.dislike.length + 1,
+        };
+        console.log("updated user =====> ", responseData);
+        return responseData;
       }
     } else {
       let message = "post reaction failed";
@@ -185,12 +207,16 @@ module.exports.postComment = async (data) => {
     const postValid = await postModel.findById(id);
     console.log("find ==>", postValid);
     if (postValid) {
-      await postModel.findByIdAndUpdate(id, {
+      let updatedData = await postModel.findByIdAndUpdate(id, {
         $addToSet: { postComments: user },
       });
+      updatedData.postComments.push(user);
 
-      let message = "posted comment successfully";
-      return message;
+      let response = {
+        message: "posted comment successfully",
+        comments: updatedData.postComments,
+      };
+      return response;
     } else {
       let message = "posted comment failed";
       return message;

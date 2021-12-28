@@ -19,7 +19,10 @@ const Contacts = () => {
   const [friendList, setfriendList] = useState(defaultList);
 
   const handleSearch = (searchItem) => {
-    // console.log("search", searchItem);
+    console.log("search", searchItem);
+    if(searchItem===""){
+      setfriendList(defaultList)
+  }
     let newList = defaultList.filter((item) => item === searchItem);
     setfriendList(newList);
   };

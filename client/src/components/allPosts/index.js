@@ -1,36 +1,81 @@
 import React, { useEffect, useState } from "react";
 import styles from "./allPosts.module.css";
 
-const AllPost = ({ story, postReaction, postComment }) => {
+const AllPost = ({ story }) => {
+  const [like, setLike] = useState(story.postReaction.like.length);
+  const [dislike, setDisLike] = useState(story.postReaction.dislike.length);
   const [comment, setComment] = useState();
   const [userComments, setUserComments] = useState(story.postComments);
   const [toggleComment, setToggleComment] = useState(false);
 
-  const likeHandler = (id, user) => {
+  const postReactions = async (data) => {
+    try {
+      const response = await fetch("http://127.0.0.1:8000/post_reaction", {
+        method: "POST",
+        body: JSON.stringify(data),
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("AUTH_TOKEN")}`,
+          "Content-Type": "application/json",
+        },
+      });
+      return response;
+    } catch (error) {
+      console.log("error in services ====> ", error);
+      return error;
+    }
+  };
+
+  const postComment = async (data) => {
+    try {
+      const response = await fetch("http://127.0.0.1:8000/post_comment", {
+        method: "POST",
+        body: JSON.stringify(data),
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("AUTH_TOKEN")}`,
+          "Content-Type": "application/json",
+        },
+      });
+      return response;
+    } catch (error) {
+      console.log("error in services ====> ", error);
+      return error;
+    }
+  };
+
+  const likeHandler = async (id, user) => {
     let data = {
       id,
       reaction: "like",
       user,
     };
-    postReaction(data);
+    let response = await postReactions(data);
+    let result = await response.json();
+    setLike(result.like);
+    setDisLike(result.dislike);
   };
 
-  const dislikeHandler = (id, user) => {
+  const dislikeHandler = async (id, user) => {
     let data = {
       id,
       reaction: "dislike",
       user,
     };
-    postReaction(data);
+    let response = await postReactions(data);
+    let result = await response.json();
+    setLike(result.like);
+    setDisLike(result.dislike);
   };
 
-  const postCommentHandler = (id, user) => {
+  const postCommentHandler = async (id, user) => {
     user.comment = comment;
     let data = {
       id,
       user,
     };
-    postComment(data);
+    let response = await postComment(data);
+    let result = await response.json();
+    console.log("====>", result);
+    setUserComments(result.comments);
     setComment("");
   };
 
@@ -56,13 +101,13 @@ const AllPost = ({ story, postReaction, postComment }) => {
       </div>
       <div className={styles.footer}>
         <button onClick={() => likeHandler(story._id, story.user)}>
-          {story.postReaction.like.length} Likes
+          {like} Likes
         </button>
         <button onClick={() => dislikeHandler(story._id, story.user)}>
-          {story.postReaction.dislike.length} Dislike
+          {dislike} Dislike
         </button>
         <button onClick={toggleCommentHandler}>
-          {story.postComments.length} Comment
+          {userComments.length} Comment
         </button>
       </div>
       <div className={styles.addComment}>
@@ -77,8 +122,8 @@ const AllPost = ({ story, postReaction, postComment }) => {
         </button>
       </div>
 
-      {toggleComment && story.postComments.length
-        ? story.postComments.map((item) => (
+      {toggleComment && userComments.length
+        ? userComments.map((item) => (
             <div className={styles.commentView}>
               <img src={item.imageUrl} alt="profile pic" />
               <div className={styles.commentDetails}>
