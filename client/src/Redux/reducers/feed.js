@@ -14,6 +14,10 @@ import {
   SUGGESTED_FRIENDS,
   SUGGESTED_FRIENDS_SUCCESSFULLY,
   SUGGESTED_FRIENDS_FAILED,
+  VIEW_PROFILE,
+  ADD_FRIEND,
+  ADD_FRIEND_SUCCESSFULLY,
+  ADD_FRIEND_FAILED,
 } from "../constants/feed";
 
 const initState = {
@@ -179,8 +183,9 @@ const initState = {
   //     postComments: [],
   //   },
   // ],
-  posts:[],
+  posts: [],
   suggestedFriends: [],
+  viewProfileUser: {},
 };
 
 const feed = (state = initState, action) => {
@@ -284,6 +289,36 @@ const feed = (state = initState, action) => {
         ...state,
         loading: false,
         message: action.payload,
+      };
+
+    case VIEW_PROFILE:
+      return {
+        ...state,
+        viewProfileUser: action.payload,
+      };
+
+    case ADD_FRIEND:
+      return {
+        ...state,
+        loading: true,
+      };
+
+    case ADD_FRIEND_SUCCESSFULLY:
+      console.log("id ", action.payload.id);
+      let newList = state.suggestedFriends.filter(
+        (item) => item.id !== action.payload.id
+      );
+      return {
+        ...state,
+        loading: false,
+        message: action.payload.message,
+        suggestedFriends: newList,
+      };
+
+    case ADD_FRIEND_FAILED:
+      return {
+        ...state,
+        loading: false,
       };
 
     default:

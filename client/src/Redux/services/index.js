@@ -132,12 +132,27 @@ services.getSuggestedFriends = async (data) => {
         "Content-Type": "application/json",
       },
     });
-    let result = await response.json();
-    result.status = response.status;
-    return result;
+    let data = await response.json();
+    return { data, status: response.status };
   } catch (error) {
     return error;
   }
 };
 
+services.addFriend = async (data) => {
+  try {
+    const response = await fetch("http://localhost:8000/addFriend", {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("AUTH_TOKEN")}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    });
+    let result = response.json();
+    return result;
+  } catch (error) {
+    return error;
+  }
+};
 export default services;

@@ -68,7 +68,7 @@ module.exports.create = async ({ tokenId }) => {
 
 module.exports.getUserDetails = async (req, res) => {
   try {
-    console.log("req user =======>", req.user);
+    // console.log("req user =======>", req.user);
     let userDetails = await userModel.findById(req.user);
 
     return userDetails;
@@ -82,20 +82,18 @@ module.exports.suggestedFriends = async (req) => {
   try {
     let all_users = await userModel.find();
     let user = await userModel.findById(req.user);
-    console.log("req users ====>", user);
-
-    // if (user.friends.length === 0) {
-    //   return all_users;
-    // }
 
     const newData = all_users.filter((item) => {
       if (item.id !== user.id) {
-        // console.log(item.id," ====>  ",user.id)
         if (user.friends.length !== 0) {
-          for (const index in user.friends) {
-            if (item.userName !== user.friends[index]) {
-              return item;
+          let toggle = false;
+          for (const key in user.friends) {
+            if (item.userName === user.friends[key].userName) {
+              toggle = true;
             }
+          }
+          if (!toggle) {
+            return item;
           }
         } else {
           return item;
@@ -113,9 +111,37 @@ module.exports.suggestedFriends = async (req) => {
 
 module.exports.addFriend = async (req) => {
   try {
-    return {};
+    let data = await userModel.findById(req.body.id);
+    let result = {
+      id: data.id,
+      userName: data.userName,
+      picture: data.picture,
+      email: data.email,
+      firstName: data.firstName,
+      lastName: data.lastName,
+      friends: data.friends.length+1,
+    };
+
+    await userModel.findByIdAndUpdate(req.user, {
+      $addToSet: { friends: result },
+    });
+    let userDetails = await userModel.findById(req.user);
+    let newData = {
+      id: userDetails.id,
+      userName: userDetails.userName,
+      picture: userDetails.picture,
+      email: userDetails.email,
+      firstName: userDetails.firstName,
+      lastName: userDetails.lastName,
+      friends: userDetails.friends.length,
+    };
+    await userModel.findByIdAndUpdate(req.body.id, {
+      $addToSet: { friends: newData },
+    });
+
+    return { message: "friend request sent", id: req.body.id };
   } catch (error) {
-    return error;
+    return { message: "friend request failed", error };
   }
 };
 

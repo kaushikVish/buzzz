@@ -6,19 +6,45 @@
 
 .contacts {
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
-  width: 200px;
-  height: 200px;
+  width: 240px;
+  height: 250px;
   overflow-y: scroll;
-    background-color: white;
+  background-color: white;
+  margin-bottom: 40px;
+}
+
+.heading{
+  padding: 4px 10px;
+  font-size: medium;
+  font-weight: 900;
+  background-color: white;
+  text-align: center;
 }
 
 .contacts:hover {
-    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
-  }
+  box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
+}
 
-.user{
-    margin-top: 10px;
-    padding-left: 15px;
-    border-bottom: 1px ridge;
-    background-color: white;
+.friends {
+  display: flex;
+  flex-direction: row;
+  margin: 5px;
+  padding: 4px 7px;
+}
+
+.friends img {
+  width: 40px;
+  height: 40px;
+  border-radius: 25px;
+}
+
+.friends button {
+  border: none;
+  font-size: medium;
+  margin-left: 30px;
+}
+
+.searchbox{
+  color: #000;
+  background-color: white;
 }

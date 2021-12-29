@@ -5,32 +5,42 @@ import Navbar from "../../components/navbar/index";
 import styles from "./feed.module.css";
 import { connect } from "react-redux";
 import MiniProfile from "../../components/miniProfile/miniProfile";
-import { getPosts, postReaction, postComment } from "../../Redux/actions/feed";
+import {
+  getPosts,
+  postReaction,
+  postComment,
+  getSuggestedFriends,
+  viewProfile,
+  addFriend,
+} from "../../Redux/actions/feed";
 import AllPost from "../../components/allPosts";
 import { getUserDetails } from "../../Redux/actions/login";
-import SuggestedFriends from '../../components/suggestedFriends'
+import SuggestedFriends from "../../components/suggestedFriends";
 
 const Feed = ({
   user,
   feed,
   getPosts,
-  postReaction,
+  getSuggestedFriends,
   postComment,
   getUserDetails,
+  viewProfile,
+  addFriend,
+  friends,
 }) => {
-
-  const [posts,setPosts] = useState(feed.posts);
+  const [posts, setPosts] = useState(feed.posts);
 
   useEffect(() => {
     if (localStorage.getItem("AUTH_TOKEN")) {
       getUserDetails();
       getPosts();
+      getSuggestedFriends();
     }
   }, []);
 
   useEffect(() => {
     getPosts();
-    setPosts(feed.posts)
+    setPosts(feed.posts);
   }, [posts]);
 
   return (
@@ -57,8 +67,12 @@ const Feed = ({
           )}
         </div>
         <div className={styles.rightbar}>
-          <Contacts />
-          <SuggestedFriends/>
+          <Contacts viewProfile={viewProfile} friends={friends} />
+          <SuggestedFriends
+            list={feed.suggestedFriends}
+            viewProfile={viewProfile}
+            addFriend={addFriend}
+          />
         </div>
       </div>
     </>
@@ -66,8 +80,8 @@ const Feed = ({
 };
 
 const mapStateToProps = ({ auth, feed }) => {
-  const { user } = auth;
-  return { user, feed };
+  const { user, friends } = auth;
+  return { user, feed, friends };
 };
 
 const mapDispatchToProps = {
@@ -75,6 +89,9 @@ const mapDispatchToProps = {
   postReaction,
   postComment,
   getUserDetails,
+  getSuggestedFriends,
+  viewProfile,
+  addFriend,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Feed);

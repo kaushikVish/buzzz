@@ -14,6 +14,10 @@ import {
   SUGGESTED_FRIENDS,
   SUGGESTED_FRIENDS_SUCCESSFULLY,
   SUGGESTED_FRIENDS_FAILED,
+  VIEW_PROFILE,
+  ADD_FRIEND,
+  ADD_FRIEND_SUCCESSFULLY,
+  ADD_FRIEND_FAILED,
 } from "../constants/feed";
 
 export const postStory = (data) => {
@@ -109,13 +113,41 @@ export const getSuggestedFriends = () => {
 export const getSuggestedFriendsSuccessfully = (data) => {
   return {
     type: SUGGESTED_FRIENDS_SUCCESSFULLY,
-    payload:data,
-  }
-}
+    payload: data,
+  };
+};
 
 export const getSuggestedFriendsFailed = (message) => {
   return {
     type: SUGGESTED_FRIENDS_FAILED,
-    payload:message,
-  }
-}
+    payload: message,
+  };
+};
+
+export const viewProfile = (user) => {
+  return {
+    type: VIEW_PROFILE,
+    payload: user,
+  };
+};
+
+export const addFriend = (user) => {
+  return {
+    type: ADD_FRIEND,
+    payload: user,
+  };
+};
+
+export const addFriendSuccessfully = (data) => {
+  return {
+    type: ADD_FRIEND_SUCCESSFULLY,
+    payload: data,
+  };
+};
+
+export const addFriendFailed = (message) => {
+  return {
+    type: ADD_FRIEND_FAILED,
+    payload: message,
+  };
+};

@@ -5,6 +5,7 @@ import {
   POST_COMMENT,
   POST_REACTION,
   SUGGESTED_FRIENDS,
+  ADD_FRIEND,
 } from "../constants/feed";
 import {
   postStorySuccessfully,
@@ -17,6 +18,8 @@ import {
   postCommentFailed,
   getSuggestedFriendsSuccessfully,
   getSuggestedFriendsFailed,
+  addFriendSuccessfully,
+  addFriendFailed,
 } from "../actions/feed";
 import services from "../services/index";
 
@@ -43,7 +46,7 @@ export function* getPosts() {
       const response = yield call(services.getPosts);
       // console.log("response of get posts =====> ", response);
       // debugger;
-      if (response.status==200) {
+      if (response.status == 200) {
         yield put(getPostSuccessfully(response.post));
       } else {
         yield put(getPostFailed("Fetching post failed"));
@@ -104,6 +107,23 @@ export function* getSuggestedFriends() {
   });
 }
 
+export function* addFriend() {
+  yield takeEvery(ADD_FRIEND, function* ({ payload }) {
+    try {
+      console.log("pyaload add friend data ===> ", payload);
+      const response = yield call(services.addFriend, payload);
+      console.log("response of add user", response);
+      if (response) {
+        yield put(addFriendSuccessfully(response));
+      } else {
+        yield put(addFriendFailed(response.message));
+      }
+    } catch (error) {
+      console.log("sagas response in add friend ", error);
+    }
+  });
+}
+
 export default function* rootSaga() {
   yield all([
     fork(postStory),
@@ -111,5 +131,6 @@ export default function* rootSaga() {
     fork(postReaction),
     fork(postComment),
     fork(getSuggestedFriends),
+    fork(addFriend),
   ]);
 }

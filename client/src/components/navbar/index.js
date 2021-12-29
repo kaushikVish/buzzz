@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import styles from "./navbar.module.css";
 import { connect } from "react-redux";
 
-const Navbar = ({ user }) => {
+const Navbar = ({user }) => {
   let navigate = useNavigate();
 
   const handleProfilePage = () => {

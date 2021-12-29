@@ -1,60 +1,59 @@
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { Input } from "antd";
 import styles from "./suggestedFriends.module.css";
 
 const { Search } = Input;
-const SuggestedFriends = () => {
-  const [suggestion, setSuggestion] = useState([]);
-  const [filteredList, setFilteredList] = useState(suggestion);
 
-  const getSuggestedFriends = async () => {
-    try {
-      const response = await fetch("http://localhost:8000/suggestionFriends", {
-        method: "GET",
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("AUTH_TOKEN")}`,
-          "Content-Type": "application/json",
-        },
-      });
-      let result = await response.json();
-      setFilteredList(result);
-      setSuggestion(result);
+const SuggestedFriends = ({ list, viewProfile, addFriend }) => {
+  let navigate = useNavigate();
+  const [filteredList, setFilteredList] = useState(list);
 
-      return result;
-    } catch (error) {
-      return error;
+  //   console.log("list ", list[0].userName);
+  const handleSearch = (searchItem) => {
+    if (searchItem === "") {
+      setFilteredList(list);
+    } else {
+      let newList = list.filter((item) => item.userName === searchItem);
+      setFilteredList(newList);
     }
   };
 
-  useEffect(() => {
-    getSuggestedFriends();
-  }, []);
+  const profileViewer = (user) => {
+    console.log("user -=====> ", user);
+    viewProfile(user);
+    navigate(`/friend_profile`);
+  };
 
-  const handleSearch = (searchItem) => {
-    if (searchItem === "") {
-      setFilteredList(suggestion);
-    } else {
-      let newList = suggestion.filter((item) => item.userName === searchItem);
-      setFilteredList(newList);
-    }
-    // console.log("suggested list", );
+  const requestHandler = (user) => {
+    let data = {
+      id: user._id,
+    };
+    addFriend(data);
   };
 
   return (
     <div className={styles.box}>
+      <div className={styles.heading}>Suggestion List</div>
       <Search
         placeholder="Suggestion"
         onSearch={handleSearch}
-        style={{ width: 180, marginLeft: 5 }}
+        bordered={false}
       />
-      {filteredList.length
-        ? filteredList.map((item) => (
-            <div className={styles.suggestionBox}>
+      {list.length
+        ? list.map((item) => (
+            <div key={item._id} className={styles.suggestionBox}>
               <img src={item.picture} alt="pp" />
-              <button>{item.userName}</button>
+              <button onClick={() => profileViewer(item)}>
+                {item.userName}
+              </button>
+              <i
+                onClick={() => requestHandler(item)}
+                className="fas fa-user-plus"
+              ></i>
             </div>
           ))
-        : "heyyyyyyyyyyyyy"}
+        : "No Suggestion"}
     </div>
   );
 };

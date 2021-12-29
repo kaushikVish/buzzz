@@ -8,13 +8,14 @@ import {
 } from "../constants/login";
 
 const initState = {
-  loading: false,
+  authLoading: false,
   message: "",
   showMessage: false,
   token: localStorage.getItem("AUTH_TOKEN"),
   user: {},
   redirect: "",
   allowRedirect: false,
+  friends:[]
 };
 
 const auth = (state = initState, action) => {
@@ -23,7 +24,7 @@ const auth = (state = initState, action) => {
       // console.log("reducresss comes");
       return {
         ...state,
-        loading: true,
+        authLoading: true,
       };
     }
     case LOGIN_SUCCESS:
@@ -33,7 +34,7 @@ const auth = (state = initState, action) => {
         message: "Login Successfull",
         token: action.payload.token,
         user: action.payload.newUser,
-        loading: false,
+        authLoading: false,
         redirect: "/feed",
         allowRedirect: true,
       };
@@ -42,27 +43,28 @@ const auth = (state = initState, action) => {
       // console.log("message", action.payload);
       return {
         ...state,
-        loading: false,
+        authLoading: false,
         message: action.payload,
       };
 
     case GET_USER_DETAILS:
       return {
         ...state,
-        loading: true,
+        authLoading: true,
       };
 
     case GET_USER_DETAILS_SUCCESSFULLY:
       return {
         ...state,
-        loading: false,
+        authLoading: false,
         user: action.payload,
+        friends:action.payload.friends
       };
 
     case GET_USER_DETAILS_FAILED:
       return {
         ...state,
-        loading: false,
+        authLoading: false,
       };
     default:
       // console.log("default reducer", action.type);
