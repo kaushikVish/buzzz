@@ -26,6 +26,32 @@ const userSchema = new Schema(
       type: Array,
       default: [],
     },
+    designation: {
+      type: String,
+      default: "",
+    },
+    gender: {
+      type: String,
+      default: "",
+    },
+    birthday: {
+      type: String,
+      default: "",
+    },
+    address: {
+      city: {
+        type: String,
+        default: "",
+      },
+      state: {
+        type: String,
+        default: "",
+      },
+      pincode: {
+        type: Number,
+        default:null
+      },
+    },
   },
   {
     timestamps: true,

@@ -28,7 +28,9 @@ const FriendProfile = ({ viewProfileUser, addFriend }) => {
           <img src={viewProfileUser.picture} alt=" User Image" />
           <span>{viewProfileUser.userName}</span>
           <div className={styles.buttonBox}>
-            {toggleIsFriend === "Request Sent" ? (
+            {viewProfileUser.isFriend ? (
+              <button>Friends</button>
+            ) : toggleIsFriend === "Request Sent" ? (
               <button disabled>{toggleIsFriend}</button>
             ) : (
               <button onClick={requestHandler}>

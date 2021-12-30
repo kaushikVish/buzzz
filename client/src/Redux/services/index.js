@@ -155,4 +155,34 @@ services.addFriend = async (data) => {
     return error;
   }
 };
+
+services.updateDetails = async (data) => {
+  try {
+    if (data.picture !== "") {
+      const res = await fetch(
+        "https://api.cloudinary.com/v1_1/dggjn2kcy/image/upload",
+        {
+          method: "POST",
+          body: data.picture,
+        }
+      );
+      const file = await res.json();
+      data.picture = file.secure_url;
+    }
+    console.log("data in services ", data);
+    const response = await fetch("http://localhost:8000/updateDetails", {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("AUTH_TOKEN")}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    });
+    let result = response.json();
+    return result;
+  } catch (error) {
+    return error;
+  }
+};
+
 export default services;

@@ -42,10 +42,7 @@ export function* postStory() {
 export function* getPosts() {
   yield takeEvery(GET_POSTS, function* () {
     try {
-      // console.log("hey in getting post sagas");
       const response = yield call(services.getPosts);
-      // console.log("response of get posts =====> ", response);
-      // debugger;
       if (response.status == 200) {
         yield put(getPostSuccessfully(response.post));
       } else {
@@ -110,9 +107,7 @@ export function* getSuggestedFriends() {
 export function* addFriend() {
   yield takeEvery(ADD_FRIEND, function* ({ payload }) {
     try {
-      console.log("pyaload add friend data ===> ", payload);
       const response = yield call(services.addFriend, payload);
-      console.log("response of add user", response);
       if (response) {
         yield put(addFriendSuccessfully(response));
       } else {

@@ -1,51 +1,128 @@
-*{
-    box-sizing: border-box;
-    padding: 0;
-    margin: 0;
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
 }
 
-.userProfile{
-    display: flex;
-    flex-direction: row;
-    justify-content: space-evenly;
+.box {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
 }
 
-.userDetails{
-    display: flex;
-    flex-direction: column;
-    width: 700px;
-    background-color: white;
-    border-radius: 25px;
+.profileBox {
+  display: flex;
+  flex-direction: column;
+  width: 550px;
+  border-radius: 25px;
+  background-color: white;
+  margin-bottom: 20px;
 }
 
-.userDetails img{
-    margin-top: 70px;
-    margin-left: 40px;
-    position: absolute;
-    height:90px;
-    width: 85px;
-    z-index: 1;
-    border-radius: 5px;
+.userDetails {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  /* margin-bottom: 90px; */
+  height: 200px;
+  background-color: white;
 }
 
-.userDetails span{
-    font-size:x-large;
-    font-weight: 900;
-    margin-top: 40px;
-    margin-left:40px
+.userDetails input {
+  margin-top: 5px;
+  position: absolute;
+  top: 140px;
+  left: 30px;
 }
 
-.userDetails div{
-    font-size:medium;
-    font-weight: 900;
+.userDetails img {
+  position: absolute;
+  top: 40px;
+  left: 30px;
+  height: 100px;
+  width: 100px;
+  z-index: 1;
+  background-color: white;
+  border-radius: 5px;
 }
 
-.backgroundImg{
-    height:120px;
-    background-color: black;
+.userDetails span {
+  position: absolute;
+  top: 175px;
+  left: 30px;
+  font-size: x-large;
+  font-weight: bolder;
+  background-color: white;
 }
 
-.suggestionFriends{
-    background-color: white;
-    width: 200px;
+.backgroundImg {
+  height: 100px;
+  background-color: black;
+  border-top-left-radius: 25px;
+  border-top-right-radius: 25px;
+}
+
+.formBox {
+  padding: 50px;
+  background-color: white;
+  border-bottom-left-radius: 25px;
+  border-bottom-right-radius: 25px;
+  margin-bottom: 20px;
+}
+
+.formItems {
+  background-color: white;
+  margin-bottom: 15px;
+}
+
+.formItems input {
+  width: 220px;
+  background-color: white;
+  padding: 5px 15px;
+  border: 1px solid black;
+  /* outline: 0;
+  border-width: 0 0 2px;
+  border-color: blue; */
+}
+
+.formItems label {
+  font-weight: bolder;
+  font-size: large;
+  background-color: white;
+}
+
+.formBox button {
+  color: white;
+  background-color: #1890ff;
+  padding: 3px 7px;
+  border-radius: 10px;
+  border: none;
+}
+
+.buttonBox {
+  display: flex;
+  justify-content: end;
+  background-color: white;
+}
+
+.designation {
+  padding: 6px;
+  background-color: white;
+}
+
+.gender{
+  display: flex;
+  flex-direction: row;
+  background-color: white;
+  margin-bottom: 15px;
+}
+
+.gender label{
+  font-weight: bolder;
+  font-size: large;
+  background-color: white;
+}
+
+.gender input{
+  background-color: white;
 }

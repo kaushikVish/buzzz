@@ -16,6 +16,8 @@
 }
 
 .header {
+  display: flex;
+  flex-direction: row;
   background-color: white;
 }
 
@@ -26,8 +28,8 @@
   background-color: white;
 }
 
-.header span {
-  font-weight: 900;
+.headerUsername {
+  font-weight: bolder;
   font-size: medium ;
   padding: 0px 10px;
   background-color: white;
@@ -41,6 +43,10 @@
 .content div {
   padding: 0px 10px;
   background-color: white;
+  margin: 10px;
+  font-size:large;
+  font-family: Georgia, 'Times New Roman', Times, serif;
+  font-weight:normal;
 }
 
 .content img {
@@ -114,4 +120,14 @@
 .commentDetails {
   display: flex;
   flex-direction: column;
+}
+
+.date{
+  background-color: white;
+  border: none;
+  margin-left: 7px;
+}
+
+.date span{
+  background-color: white;
 }

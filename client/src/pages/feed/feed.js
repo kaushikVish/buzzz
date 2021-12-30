@@ -55,11 +55,7 @@ const Feed = ({
           {feed.posts.length ? (
             feed.posts.map((item) => (
               <div key={item._id}>
-                <AllPost
-                  story={item}
-                  getPosts={getPosts}
-                  postComment={postComment}
-                />
+                <AllPost story={item} />
               </div>
             ))
           ) : (
@@ -68,11 +64,7 @@ const Feed = ({
         </div>
         <div className={styles.rightbar}>
           <Contacts viewProfile={viewProfile} friends={friends} />
-          <SuggestedFriends
-            list={feed.suggestedFriends}
-            viewProfile={viewProfile}
-            addFriend={addFriend}
-          />
+          <SuggestedFriends />
         </div>
       </div>
     </>

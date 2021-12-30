@@ -8,6 +8,21 @@ const AllPost = ({ story }) => {
   const [userComments, setUserComments] = useState(story.postComments);
   const [toggleComment, setToggleComment] = useState(false);
 
+  let Month = [
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December",
+  ];
+
   const postReactions = async (data) => {
     try {
       const response = await fetch("http://127.0.0.1:8000/post_reaction", {
@@ -87,13 +102,23 @@ const AllPost = ({ story }) => {
     setToggleComment(!toggleComment);
   };
 
-  // console.log("user comments ===========>", userComments);
+  console.log(
+    "user comments ===========>",
+    new Date(story.createdAt).getUTCDate()
+  );
 
   return (
     <div className={styles.postCard}>
       <div className={styles.header}>
         <img src={story.user.imageUrl} alt="profile pic" />
-        <span>{story.user.username}</span>
+        <div className={styles.userBox}>
+          <div className={styles.headerUsername}>{story.user.username}</div>
+          <div className={styles.date}>
+            <span> {Month[new Date(story.createdAt).getMonth()]}  </span>
+            <span>{new Date(story.createdAt).getDate()},  </span>
+            <span>{new Date(story.createdAt).getFullYear()}</span>
+          </div>
+        </div>
       </div>
       <div className={styles.content}>
         <div>{story.text}</div>

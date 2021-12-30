@@ -304,9 +304,8 @@ const feed = (state = initState, action) => {
       };
 
     case ADD_FRIEND_SUCCESSFULLY:
-      console.log("id ", action.payload.id);
       let newList = state.suggestedFriends.filter(
-        (item) => item.id !== action.payload.id
+        (item) => item._id !== action.payload.id
       );
       return {
         ...state,

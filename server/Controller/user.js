@@ -45,3 +45,8 @@ module.exports.addFriend = async (req, res) => {
   const response = await user.addFriend(req);
   res.send(JSON.stringify(response));
 };
+
+module.exports.updateDetails = async (req, res) => {
+  const response = await user.updateDetails(req);
+  res.send(JSON.stringify(response));
+};

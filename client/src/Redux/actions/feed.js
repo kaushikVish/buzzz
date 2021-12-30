@@ -18,6 +18,7 @@ import {
   ADD_FRIEND,
   ADD_FRIEND_SUCCESSFULLY,
   ADD_FRIEND_FAILED,
+  UPDATE_DETAILS,
 } from "../constants/feed";
 
 export const postStory = (data) => {

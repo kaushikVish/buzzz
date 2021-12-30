@@ -24,6 +24,7 @@ const Contacts = ({ friends, viewProfile }) => {
 
   const profileViewer = (user) => {
     console.log("user -=====> ", user);
+    user.isFriend=true;
     viewProfile(user);
     navigate(`/friend_profile`);
   };

@@ -2,8 +2,9 @@ import {
   GET_USER_DETAILS,
   GET_USER_DETAILS_FAILED,
   GET_USER_DETAILS_SUCCESSFULLY,
-} from "../constants/login";
-import {
+  UPDATE_DETAILS,
+  UPDATE_DETAILS_FAILED,
+  UPDATE_DETAILS_SUCCESSFULLY,
   LOGIN_SUCCESS,
   LOGIN_FAILED,
   LOGIN_WITH_GOOGLE,
@@ -48,5 +49,25 @@ export const getUserDetailsFailed = (message) => {
   return {
     type: GET_USER_DETAILS_FAILED,
     payload: message,
+  };
+};
+
+export const saveUpdateDetails = (data) => {
+  console.log("action ==> ", data);
+  return {
+    type: UPDATE_DETAILS,
+    payload: data,
+  };
+};
+
+export const saveUpdateDetailsSuccessfully = () => {
+  return {
+    type: UPDATE_DETAILS_SUCCESSFULLY,
+  };
+};
+
+export const saveUpdateDetailsFailed = () => {
+  return {
+    type: UPDATE_DETAILS_FAILED,
   };
 };

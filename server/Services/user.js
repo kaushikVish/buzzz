@@ -119,7 +119,7 @@ module.exports.addFriend = async (req) => {
       email: data.email,
       firstName: data.firstName,
       lastName: data.lastName,
-      friends: data.friends.length+1,
+      friends: data.friends.length + 1,
     };
 
     await userModel.findByIdAndUpdate(req.user, {
@@ -268,4 +268,28 @@ module.exports.deleteComment = async (data) => {
       return message;
     }
   } catch (error) {}
+};
+
+module.exports.updateDetails = async (req) => {
+  try {
+    if (req.body.picture !== "") {
+      await userModel.findByIdAndUpdate(req.user, {
+        $set: { picture: req.body.picture },
+      });
+    }
+    await userModel.findByIdAndUpdate(req.user, {
+      $set: {
+        userName: req.body.userName,
+        birthday: req.body.birthday,
+        "address.city": req.body.city,
+        gender: req.body.gender,
+        "address.state": req.body.state,
+        designation: req.body.designation,
+        "address.pincode": req.body.pincode,
+      },
+    });
+    return { message: "update success" };
+  } catch (error) {
+    console.log("errror ===== >", error);
+  }
 };

@@ -5,6 +5,9 @@ import {
   GET_USER_DETAILS,
   GET_USER_DETAILS_FAILED,
   GET_USER_DETAILS_SUCCESSFULLY,
+  UPDATE_DETAILS,
+  UPDATE_DETAILS_SUCCESSFULLY,
+  UPDATE_DETAILS_FAILED,
 } from "../constants/login";
 
 const initState = {
@@ -15,7 +18,7 @@ const initState = {
   user: {},
   redirect: "",
   allowRedirect: false,
-  friends:[]
+  friends: [],
 };
 
 const auth = (state = initState, action) => {
@@ -58,7 +61,7 @@ const auth = (state = initState, action) => {
         ...state,
         authLoading: false,
         user: action.payload,
-        friends:action.payload.friends
+        friends: action.payload.friends,
       };
 
     case GET_USER_DETAILS_FAILED:
@@ -66,6 +69,25 @@ const auth = (state = initState, action) => {
         ...state,
         authLoading: false,
       };
+
+    case UPDATE_DETAILS:
+      return {
+        ...state,
+        authLoading: true,
+      };
+
+    case UPDATE_DETAILS_SUCCESSFULLY:
+      return {
+        ...state,
+        authLoading: false,
+      };
+
+    case UPDATE_DETAILS_FAILED:
+      return {
+        ...state,
+        authLoading: false,
+      };
+
     default:
       // console.log("default reducer", action.type);
       return state;

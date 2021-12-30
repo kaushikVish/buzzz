@@ -1,10 +1,16 @@
 import { all, takeEvery, put, fork, call } from "redux-saga/effects";
-import { GET_USER_DETAILS, LOGIN_WITH_GOOGLE } from "../constants/login";
+import {
+  GET_USER_DETAILS,
+  LOGIN_WITH_GOOGLE,
+  UPDATE_DETAILS,
+} from "../constants/login";
 import {
   loginSuccess,
   loginFailed,
   getUserDetailsSuccessfully,
   getUserDetailsFailed,
+  saveUpdateDetailsSuccessfully,
+  saveUpdateDetailsFailed,
 } from "../actions/login";
 import services from "../services/index";
 
@@ -30,7 +36,7 @@ export function* getUserDetails() {
   yield takeEvery(GET_USER_DETAILS, function* () {
     try {
       const response = yield call(services.getUserDetails);
-      if (response.status===200) {
+      if (response.status === 200) {
         yield put(getUserDetailsSuccessfully(response.result));
       } else {
         yield put(getUserDetailsFailed("Failed in fetching details"));
@@ -41,6 +47,25 @@ export function* getUserDetails() {
   });
 }
 
+export function* saveUpdateDetails() {
+  yield takeEvery(UPDATE_DETAILS, function* ({ payload }) {
+    try {
+      const response = yield call(services.updateDetails, payload);
+      if (response) {
+        yield put(saveUpdateDetailsSuccessfully());
+      } else {
+        yield put(saveUpdateDetailsFailed());
+      }
+    } catch (error) {
+      console.log("error in sagas in update details ", error);
+    }
+  });
+}
+
 export default function* rootSaga() {
-  yield all([fork(loginWithGoogle), fork(getUserDetails)]);
+  yield all([
+    fork(loginWithGoogle),
+    fork(getUserDetails),
+    fork(saveUpdateDetails),
+  ]);
 }
