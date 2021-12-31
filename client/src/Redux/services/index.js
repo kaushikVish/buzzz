@@ -49,7 +49,7 @@ services.postStory = async (postData) => {
       postImage_url: file.secure_url,
       postText: postData.text,
     };
-    console.log("half work is done ===>", post);
+
     const response = await fetch("http://localhost:8000/create_post", {
       method: "POST",
       headers: {
@@ -58,7 +58,6 @@ services.postStory = async (postData) => {
       },
       body: JSON.stringify(post),
     });
-    console.log("response of createPost backend", response);
     let result = await response.json();
     return result;
   } catch (err) {
@@ -67,9 +66,9 @@ services.postStory = async (postData) => {
   }
 };
 
-services.getPosts = async () => {
+services.getPosts = async (page) => {
   try {
-    const response = await fetch("http://127.0.0.1:8000/getPosts", {
+    const response = await fetch(`http://127.0.0.1:8000/getPosts/${page}`, {
       method: "GET",
       headers: {
         Authorization: `Bearer ${localStorage.getItem("AUTH_TOKEN")}`,
@@ -91,7 +90,6 @@ services.getPosts = async () => {
 
 services.postReaction = async (data) => {
   try {
-    console.log("data in like post services", data);
     const response = await fetch("http://127.0.0.1:8000/post_reaction", {
       method: "POST",
       body: JSON.stringify(data),
@@ -170,7 +168,7 @@ services.updateDetails = async (data) => {
       const file = await res.json();
       data.picture = file.secure_url;
     }
-    console.log("data in services ", data);
+
     const response = await fetch("http://localhost:8000/updateDetails", {
       method: "POST",
       headers: {
@@ -188,7 +186,6 @@ services.updateDetails = async (data) => {
 
 services.deletePost = async (id) => {
   try {
-    console.log("id in front end", id);
     const response = await fetch(`http://localhost:8000/deletePost/${id}`, {
       method: "DELETE",
       headers: {

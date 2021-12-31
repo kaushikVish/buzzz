@@ -27,7 +27,6 @@ module.exports.create = async ({ tokenId }) => {
     return { newUser, token };
     // console.log("Update email");
   } else {
-    console.log("hey in service of createa user");
     newUser = await userModel.create({
       email,
       userName: name,
@@ -35,7 +34,7 @@ module.exports.create = async ({ tokenId }) => {
       lastName: family_name,
       picture,
     });
-    console.log("Saved the new User");
+    // console.log("Saved the new User");
     const token = jwt.sign(
       { id: newUser._id, email: newUser.email },
       `${process.env.JWT_KEY}`,
@@ -146,10 +145,8 @@ module.exports.addFriend = async (req) => {
 };
 
 module.exports.createPost = async (req, res) => {
-  // console.log("req of create post in services", req.body);
   try {
     let user_response = await userModel.findById(req.user);
-    // console.log(user_response.userName, "   ", user_response.picture);
 
     let newPost = await postModel.create({
       text: req.body.postText,
@@ -167,9 +164,17 @@ module.exports.createPost = async (req, res) => {
   }
 };
 
-module.exports.getPosts = async (req, res) => {
+module.exports.getPosts = async (req) => {
   try {
-    let allposts = await postModel.find().sort({ _id: -1 }).limit(10);
+    // console.log("=====> ree body page ", req.params.id);
+    let skipPost = req.params.id * 2;
+    let allposts = await postModel
+      .find()
+      .sort({ _id: -1 })
+      .skip(skipPost)
+      .limit(2);
+
+    // console.log("all posts ====>", allposts);
     return allposts;
   } catch (err) {
     console.log("error in getting posts  ", err);
@@ -197,7 +202,7 @@ module.exports.postReaction = async (data) => {
           like: updatedData.postReaction.like.length + 1,
           dislike: updatedData.postReaction.dislike.length,
         };
-        console.log("updated user =====> ", responseData);
+        // console.log("updated user =====> ", responseData);
 
         return responseData;
       } else if (reaction === "dislike") {
@@ -214,7 +219,7 @@ module.exports.postReaction = async (data) => {
           like: updatedData.postReaction.like.length,
           dislike: updatedData.postReaction.dislike.length + 1,
         };
-        console.log("updated user =====> ", responseData);
+        // console.log("updated user =====> ", responseData);
         return responseData;
       }
     } else {
@@ -231,7 +236,7 @@ module.exports.postComment = async (data) => {
   try {
     const { id, user } = data;
     const postValid = await postModel.findById(id);
-    console.log("find ==>", postValid);
+    // console.log("find ==>", postValid);
     if (postValid) {
       let updatedData = await postModel.findByIdAndUpdate(id, {
         $addToSet: { postComments: user },
@@ -332,7 +337,7 @@ module.exports.reportPost = async (req) => {
 };
 
 module.exports.deletePost = async (req) => {
-  console.log("id ====>", req.params.id);
+  // console.log("id ====>", req.params.id);
   await postModel.deleteOne({ _id: req.params.id });
   return { id: req.params.id };
 };

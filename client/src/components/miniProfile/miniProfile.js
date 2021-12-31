@@ -1,7 +1,7 @@
 import React from "react";
 import styles from "./miniProfile.module.css";
 
-const MiniProfile = ({ username, imgUrl }) => {
+const MiniProfile = ({ username, imgUrl, totalPosts }) => {
   return (
     <div className={styles.userprofile}>
       <img id={styles.img} src={imgUrl} alt="Profile Image" />
@@ -9,12 +9,12 @@ const MiniProfile = ({ username, imgUrl }) => {
       <span id={styles.second_span}>Newly Recruit at TTN</span>
       <div id={styles.post_details}>
         <div id={styles.post_views}>
-          <div>234</div>
-          <div style={{ textAlign: "center" }}>Post Views</div>
+          <div>0</div>
+          <div>{totalPosts}</div>
         </div>
         <div id={styles.posts}>
-          <div>10</div>
           <div>Post</div>
+          <div>Views</div>
         </div>
       </div>
     </div>

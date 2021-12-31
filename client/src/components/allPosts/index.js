@@ -138,7 +138,6 @@ const AllPost = ({ story, isAdmin, deletePost }) => {
     toast.success("Post deleted");
   };
 
-  // console.log("is admin ==>", isAdmin);
   return (
     <div className={styles.postCard}>
       <ToastContainer />
@@ -217,8 +216,8 @@ const AllPost = ({ story, isAdmin, deletePost }) => {
       </div>
 
       {toggleComment && userComments.length
-        ? userComments.map((item) => (
-            <div className={styles.commentView}>
+        ? userComments.map((item,index) => (
+            <div key={item.userId+index} className={styles.commentView}>
               <img src={item.imageUrl} alt="profile pic" />
               <div className={styles.commentDetails}>
                 <div id={styles.commentUsername}>{item.username}</div>

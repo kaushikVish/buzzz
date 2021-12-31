@@ -12,10 +12,10 @@
   /* margin-right: 200px; */
 }
 
-.moderator{
-    margin-top: 20px;
-    display: flex;
-    justify-content: end;
+.moderator {
+  margin-top: 20px;
+  display: flex;
+  justify-content: end;
 }
 
 .switch {
@@ -79,5 +79,17 @@
   border-radius: 50%;
 }
 
-.rightbar {
+.moreButtonDiv {
+  display: flex;
+  justify-content: space-around;
+}
+
+.moreButtonDiv p{
+  color:red;
+}
+
+.morePost {
+  padding: 4px;
+  background-color: #1890ff;
+  color: white;
 }

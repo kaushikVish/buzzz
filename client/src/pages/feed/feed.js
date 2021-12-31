@@ -32,18 +32,18 @@ const Feed = ({
   deletePost,
 }) => {
   const [posts, setPosts] = useState(feed.posts);
+  const [pageNumber, setPageNumber] = useState(1);
   const [toggleModerator, setToggleModerator] = useState(false);
 
   useEffect(() => {
     if (localStorage.getItem("AUTH_TOKEN")) {
       getUserDetails();
-      getPosts();
+      getPosts(0);
       getSuggestedFriends();
     }
   }, []);
 
   useEffect(() => {
-    // getPosts();
     setPosts(feed.posts);
   }, [posts]);
 
@@ -51,12 +51,17 @@ const Feed = ({
     setToggleModerator(!toggleModerator);
   };
 
+  const fetchData = () => {
+    setPageNumber(pageNumber + 1);
+    getPosts(pageNumber);
+  };
+
   return (
     <>
       <Navbar />
       <div className={styles.body}>
         <div className={styles.leftbar}>
-          <MiniProfile username={user.userName} imgUrl={user.picture} />
+          <MiniProfile username={user.userName} imgUrl={user.picture} totalPosts={feed.posts.length}/>
         </div>
         <div className={styles.mainContent}>
           <CreatePost username={user.userName} imgUrl={user.picture} />
@@ -96,6 +101,15 @@ const Feed = ({
                   </div>
                 ))
             : ""}
+          <div className={styles.moreButtonDiv}>
+            {feed.posts.length ? (
+              <button onClick={fetchData} className={styles.morePost}>
+                More Posts
+              </button>
+            ) : (
+              <p>No Posts, Start with your own story</p>
+            )}
+          </div>
         </div>
         <div className={styles.rightbar}>
           <Contacts viewProfile={viewProfile} friends={friends} />
@@ -108,7 +122,6 @@ const Feed = ({
 
 const mapStateToProps = ({ auth, feed }) => {
   const { user, friends } = auth;
-  // console.log("user =======> ", user);
   return { user, feed, friends };
 };
 

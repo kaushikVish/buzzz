@@ -45,9 +45,10 @@ export const postStoryFailed = (message) => {
   };
 };
 
-export const getPosts = () => {
+export const getPosts = (data) => {
   return {
     type: GET_POSTS,
+    payload: data,
   };
 };
 

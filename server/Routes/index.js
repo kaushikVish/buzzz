@@ -29,7 +29,7 @@ const authenticateToken = (req, res, next) => {
 router.post("/login", user.create);
 router.get("/getUserDetails", authenticateToken, user.getUserDetails);
 router.post("/create_post", authenticateToken, user.createPost);
-router.get("/getPosts", authenticateToken, user.getPosts);
+router.get("/getPosts/:id", authenticateToken, user.getPosts);
 router.post("/post_reaction", authenticateToken, user.postReaction);
 router.post("/post_comment", authenticateToken, user.postComment);
 router.delete("/delete_comment", authenticateToken, user.deleteComment);

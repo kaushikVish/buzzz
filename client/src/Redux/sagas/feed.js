@@ -43,15 +43,16 @@ export function* postStory() {
 }
 
 export function* getPosts() {
-  yield takeEvery(GET_POSTS, function* () {
+  yield takeEvery(GET_POSTS, function* ({payload}) {
     try {
-      const response = yield call(services.getPosts);
+      const response = yield call(services.getPosts,payload);
       if (response.status == 200) {
         yield put(getPostSuccessfully(response.post));
       } else {
         yield put(getPostFailed("Fetching post failed"));
       }
     } catch (error) {
+      yield put(getPostFailed());
       console.log("error in fecthing post sagas", error);
     }
   });

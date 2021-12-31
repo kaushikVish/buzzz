@@ -17,7 +17,7 @@ module.exports.createPost = async (req, res) => {
 };
 
 module.exports.getPosts = async (req, res) => {
-  const response = await user.getPosts();
+  const response = await user.getPosts(req);
   res.send(JSON.stringify(response));
 };
 

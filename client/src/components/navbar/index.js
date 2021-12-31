@@ -3,11 +3,16 @@ import { useNavigate } from "react-router-dom";
 import styles from "./navbar.module.css";
 import { connect } from "react-redux";
 
-const Navbar = ({user }) => {
+const Navbar = ({ user }) => {
   let navigate = useNavigate();
 
   const handleProfilePage = () => {
     navigate(`/user_profile`);
+  };
+
+  const handleLogout = () => {
+    localStorage.removeItem("AUTH_TOKEN");
+    navigate(`/`);
   };
 
   return (
@@ -32,6 +37,9 @@ const Navbar = ({user }) => {
           className="fa fa-user-plus fa-1x"
           aria-hidden="true"
         ></i>
+        <button className={styles.logOut} onClick={handleLogout}>
+          Log Out
+        </button>
       </div>
     </div>
   );
