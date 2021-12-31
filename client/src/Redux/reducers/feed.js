@@ -18,6 +18,9 @@ import {
   ADD_FRIEND,
   ADD_FRIEND_SUCCESSFULLY,
   ADD_FRIEND_FAILED,
+  DELETE_POST,
+  DELETE_POST_SUCCESSFULLY,
+  DELETE_POST_FAILED,
 } from "../constants/feed";
 
 const initState = {
@@ -197,13 +200,19 @@ const feed = (state = initState, action) => {
       };
 
     case POST_STORY_SUCCESSFULLY:
+      console.log("posts action payload ======>", action.payload);
+      let newPosts = state.posts;
+      newPosts.unshift(action.payload.newPost);
+      console.log("new posts ======>", newPosts);
       return {
         ...state,
         loading: false,
-        message: action.payload,
+        posts: newPosts,
+        message: "Post Story Successfully",
       };
 
     case POST_STORY_FAILED:
+      console.log("hey error in deletion");
       return {
         ...state,
         loading: false,
@@ -318,6 +327,31 @@ const feed = (state = initState, action) => {
       return {
         ...state,
         loading: false,
+      };
+
+    case DELETE_POST:
+      return {
+        ...state,
+        loading: true,
+      };
+
+    case DELETE_POST_SUCCESSFULLY:
+      let id = JSON.parse(action.payload.id);
+      console.log("action payload id ====>", id);
+      let deletePosts = state.posts.filter((item) => item._id !== id);
+      console.log("new posts after deletion===> ", newPosts);
+      return {
+        ...state,
+        loading: false,
+        posts: deletePosts,
+        message: "Delete Post Successfully",
+      };
+
+    case DELETE_POST_FAILED:
+      return {
+        ...state,
+        loading: false,
+        message: "Delete Post Failed",
       };
 
     default:

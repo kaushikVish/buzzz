@@ -59,7 +59,8 @@ services.postStory = async (postData) => {
       body: JSON.stringify(post),
     });
     console.log("response of createPost backend", response);
-    return response;
+    let result = await response.json();
+    return result;
   } catch (err) {
     console.log("errror in services in posting story", err);
     return err;
@@ -178,7 +179,24 @@ services.updateDetails = async (data) => {
       },
       body: JSON.stringify(data),
     });
-    let result = response.json();
+    let result = await response.json();
+    return result;
+  } catch (error) {
+    return error;
+  }
+};
+
+services.deletePost = async (id) => {
+  try {
+    console.log("id in front end", id);
+    const response = await fetch(`http://localhost:8000/deletePost/${id}`, {
+      method: "DELETE",
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("AUTH_TOKEN")}`,
+        "Content-Type": "application/json",
+      },
+    });
+    let result = await response.json();
     return result;
   } catch (error) {
     return error;

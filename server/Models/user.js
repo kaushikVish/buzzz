@@ -49,8 +49,13 @@ const userSchema = new Schema(
       },
       pincode: {
         type: Number,
-        default:null
+        default: null,
       },
+    },
+    isAdmin: {
+      type: Boolean,
+      default: false,
+      required: true,
     },
   },
   {
@@ -86,6 +91,10 @@ const postSchema = new Schema(
     postComments: {
       type: Array,
       default: [],
+    },
+    isReported: {
+      type: Boolean,
+      default: false,
     },
   },
   {

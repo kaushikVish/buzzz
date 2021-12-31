@@ -6,6 +6,7 @@ import {
   POST_REACTION,
   SUGGESTED_FRIENDS,
   ADD_FRIEND,
+  DELETE_POST,
 } from "../constants/feed";
 import {
   postStorySuccessfully,
@@ -20,6 +21,8 @@ import {
   getSuggestedFriendsFailed,
   addFriendSuccessfully,
   addFriendFailed,
+  deletePostSuccessfully,
+  deletePostFailed,
 } from "../actions/feed";
 import services from "../services/index";
 
@@ -28,8 +31,8 @@ export function* postStory() {
     try {
       const response = yield call(services.postStory, payload);
       console.log("response ====>", response);
-      if (response.status === 200) {
-        yield put(postStorySuccessfully("Posted Successfully"));
+      if (response) {
+        yield put(postStorySuccessfully(response));
       } else {
         yield put(postStoryFailed("Posted Failed"));
       }
@@ -119,6 +122,21 @@ export function* addFriend() {
   });
 }
 
+export function* deletePost() {
+  yield takeEvery(DELETE_POST, function* ({ payload }) {
+    try {
+      const response = yield call(services.deletePost, payload);
+      if (response) {
+        yield put(deletePostSuccessfully(response));
+      } else {
+        yield put(deletePostFailed());
+      }
+    } catch (error) {
+      yield put(deletePostFailed());
+    }
+  });
+}
+
 export default function* rootSaga() {
   yield all([
     fork(postStory),
@@ -127,5 +145,6 @@ export default function* rootSaga() {
     fork(postComment),
     fork(getSuggestedFriends),
     fork(addFriend),
+    fork(deletePost),
   ]);
 }

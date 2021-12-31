@@ -18,6 +18,17 @@
 .header {
   display: flex;
   flex-direction: row;
+  justify-content: space-between;
+  background-color: white;
+}
+
+.header i{
+  background-color: white;
+}
+
+.leftHeader{
+  display: flex;
+  flex-direction: row;
   background-color: white;
 }
 
@@ -27,6 +38,31 @@
   border-radius: 25px;
   background-color: white;
 }
+
+.header i{
+  background-color: white;
+  display: flex;
+  justify-content: end;
+}
+
+.otherOptions{
+  background-color: white;
+}
+
+.otherOptions button{
+  margin:0px 10px;
+  padding: 2px 3px;
+  background-color: white;
+}
+
+.otherOptions li{
+  background-color: white;
+}
+
+.otherOptions ul{
+  list-style: none;
+}
+
 
 .headerUsername {
   font-weight: bolder;
@@ -129,5 +165,12 @@
 }
 
 .date span{
+  background-color: white;
+}
+
+#icons{
+  color: darkred;
+  margin-right: 20px;
+  /* margin-top: 5px; */
   background-color: white;
 }

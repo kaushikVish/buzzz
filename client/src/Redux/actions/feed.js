@@ -19,6 +19,9 @@ import {
   ADD_FRIEND_SUCCESSFULLY,
   ADD_FRIEND_FAILED,
   UPDATE_DETAILS,
+  DELETE_POST,
+  DELETE_POST_SUCCESSFULLY,
+  DELETE_POST_FAILED,
 } from "../constants/feed";
 
 export const postStory = (data) => {
@@ -28,10 +31,10 @@ export const postStory = (data) => {
   };
 };
 
-export const postStorySuccessfully = (message) => {
+export const postStorySuccessfully = (data) => {
   return {
     type: POST_STORY_SUCCESSFULLY,
-    payload: message,
+    payload: data,
   };
 };
 
@@ -150,5 +153,26 @@ export const addFriendFailed = (message) => {
   return {
     type: ADD_FRIEND_FAILED,
     payload: message,
+  };
+};
+
+export const deletePost = (id) => {
+  console.log("delete post action ===>", id);
+  return {
+    type: DELETE_POST,
+    payload: id,
+  };
+};
+
+export const deletePostSuccessfully = (id) => {
+  return {
+    type: DELETE_POST_SUCCESSFULLY,
+    payload: id,
+  };
+};
+
+export const deletePostFailed = () => {
+  return {
+    type: DELETE_POST_FAILED,
   };
 };

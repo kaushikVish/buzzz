@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from "react";
+import { toast, ToastContainer } from "react-toastify";
 import styles from "./allPosts.module.css";
 
-const AllPost = ({ story }) => {
+const AllPost = ({ story, isAdmin, deletePost }) => {
   const [like, setLike] = useState(story.postReaction.like.length);
   const [dislike, setDisLike] = useState(story.postReaction.dislike.length);
   const [comment, setComment] = useState();
   const [userComments, setUserComments] = useState(story.postComments);
   const [toggleComment, setToggleComment] = useState(false);
+  const [togglePostOptions, setTogglePostOptions] = useState(false);
 
   let Month = [
     "January",
@@ -89,7 +91,6 @@ const AllPost = ({ story }) => {
     };
     let response = await postComment(data);
     let result = await response.json();
-    console.log("====>", result);
     setUserComments(result.comments);
     setComment("");
   };
@@ -102,22 +103,90 @@ const AllPost = ({ story }) => {
     setToggleComment(!toggleComment);
   };
 
-  console.log(
-    "user comments ===========>",
-    new Date(story.createdAt).getUTCDate()
-  );
+  const handlerTogglePostOptions = () => {
+    setTogglePostOptions(!togglePostOptions);
+  };
 
+  const handleReportPost = async (message) => {
+    try {
+      const response = await fetch(
+        `http://localhost:8000/reportPost/${story._id}`,
+        {
+          method: "PATCH",
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("AUTH_TOKEN")}`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      if (response.status === 200) {
+        toast.success(`Post ${message}  `);
+        if (message === "unreport") {
+          story.isReported = false;
+        } else {
+          story.isReported = true;
+        }
+      }
+    } catch (error) {
+      console.log("error in reporting post ", error);
+      toast.error(`Post ${message} Failed`);
+    }
+  };
+
+  const handleDeletePost = async () => {
+    deletePost(story._id);
+    toast.success("Post deleted");
+  };
+
+  // console.log("is admin ==>", isAdmin);
   return (
     <div className={styles.postCard}>
+      <ToastContainer />
       <div className={styles.header}>
-        <img src={story.user.imageUrl} alt="profile pic" />
-        <div className={styles.userBox}>
-          <div className={styles.headerUsername}>{story.user.username}</div>
-          <div className={styles.date}>
-            <span> {Month[new Date(story.createdAt).getMonth()]}  </span>
-            <span>{new Date(story.createdAt).getDate()},  </span>
-            <span>{new Date(story.createdAt).getFullYear()}</span>
+        <div className={styles.leftHeader}>
+          <img src={story.user.imageUrl} alt="profile pic" />
+          <div className={styles.userBox}>
+            <div className={styles.headerUsername}>{story.user.username}</div>
+            <div className={styles.date}>
+              <span> {Month[new Date(story.createdAt).getMonth()]} </span>
+              <span>{new Date(story.createdAt).getDate()}, </span>
+              <span>{new Date(story.createdAt).getFullYear()}</span>
+            </div>
           </div>
+        </div>
+        <div>
+          {story.isReported ? (
+            <i className="fa fa-flag" id={styles.icons} aria-hidden="true"></i>
+          ) : (
+            ""
+          )}
+          <i
+            onClick={handlerTogglePostOptions}
+            className="fa fa-ellipsis-v"
+            aria-hidden="true"
+          ></i>
+
+          {togglePostOptions ? (
+            <div className={styles.otherOptions}>
+              {isAdmin && story.isReported ? (
+                <button onClick={() => handleReportPost("Unreport")}>
+                  Unreport Post
+                </button>
+              ) : (
+                <button onClick={() => handleReportPost("Report")}>
+                  Report Post
+                </button>
+              )}
+
+              {isAdmin && story.isReported ? (
+                <button onClick={handleDeletePost}>Delete Post</button>
+              ) : (
+                ""
+              )}
+            </div>
+          ) : (
+            ""
+          )}
         </div>
       </div>
       <div className={styles.content}>

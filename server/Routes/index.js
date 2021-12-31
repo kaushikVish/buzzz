@@ -36,4 +36,7 @@ router.delete("/delete_comment", authenticateToken, user.deleteComment);
 router.get("/suggestionFriends", authenticateToken, user.suggestedFriends);
 router.post("/addFriend", authenticateToken, user.addFriend);
 router.post("/updateDetails", authenticateToken, user.updateDetails);
+router.patch("/reportPost/:id", authenticateToken, user.reportPost);
+router.delete("/deletePost/:id", authenticateToken, user.deletePost);
+
 module.exports = router;

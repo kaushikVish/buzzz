@@ -50,3 +50,13 @@ module.exports.updateDetails = async (req, res) => {
   const response = await user.updateDetails(req);
   res.send(JSON.stringify(response));
 };
+
+module.exports.reportPost = async (req, res) => {
+  const response = await user.reportPost(req);
+  res.send(JSON.stringify(response));
+};
+
+module.exports.deletePost = async (req, res) => {
+  const response = await user.deletePost(req);
+  res.send(JSON.stringify(response));
+};

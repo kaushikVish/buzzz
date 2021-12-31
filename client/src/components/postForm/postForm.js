@@ -28,7 +28,7 @@ const PostForm = ({ username, imgUrl, onClose, postStory, feed }) => {
     };
 
     postStory(postData);
-    toast.success(feed.message);
+    toast.success("New Story Posted");
     onClose();
   };
 

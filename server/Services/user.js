@@ -169,7 +169,7 @@ module.exports.createPost = async (req, res) => {
 
 module.exports.getPosts = async (req, res) => {
   try {
-    let allposts = await postModel.find().sort({ _id: 1 }).limit(10);
+    let allposts = await postModel.find().sort({ _id: -1 }).limit(10);
     return allposts;
   } catch (err) {
     console.log("error in getting posts  ", err);
@@ -292,4 +292,47 @@ module.exports.updateDetails = async (req) => {
   } catch (error) {
     console.log("errror ===== >", error);
   }
+};
+
+module.exports.reportPost = async (req) => {
+  let user = await userModel.findById(req.user);
+  // console.log("=======>",user)
+  if (user.isAdmin) {
+    let post = await postModel.findById(req.params.id);
+    if (post.isReported) {
+      await postModel.findByIdAndUpdate(
+        req.params.id,
+        {
+          $set: { isReported: false },
+        },
+        { new: true }
+      );
+      return {};
+    } else {
+      await postModel.findByIdAndUpdate(
+        req.params.id,
+        {
+          $set: { isReported: true },
+        },
+        { new: true }
+      );
+      return {};
+    }
+  } else {
+    await postModel.findByIdAndUpdate(
+      req.params.id,
+      {
+        $set: { isReported: true },
+      },
+      { new: true }
+    );
+  }
+
+  return {};
+};
+
+module.exports.deletePost = async (req) => {
+  console.log("id ====>", req.params.id);
+  await postModel.deleteOne({ _id: req.params.id });
+  return { id: req.params.id };
 };
