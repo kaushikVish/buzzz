@@ -37,6 +37,7 @@ services.getUserDetails = async (data) => {
 
 services.postStory = async (postData) => {
   try {
+    console.log("post afata",postData)
     const res = await fetch(
       "https://api.cloudinary.com/v1_1/dggjn2kcy/image/upload",
       {
@@ -49,7 +50,7 @@ services.postStory = async (postData) => {
       postImage_url: file.secure_url,
       postText: postData.text,
     };
-
+    console.log("post of file ====>", post);
     const response = await fetch("http://localhost:8000/create_post", {
       method: "POST",
       headers: {

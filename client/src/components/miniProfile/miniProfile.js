@@ -9,8 +9,8 @@ const MiniProfile = ({ username, imgUrl, totalPosts }) => {
       <span id={styles.second_span}>Newly Recruit at TTN</span>
       <div id={styles.post_details}>
         <div id={styles.post_views}>
-          <div>0</div>
           <div>{totalPosts}</div>
+          <div>0</div>
         </div>
         <div id={styles.posts}>
           <div>Post</div>

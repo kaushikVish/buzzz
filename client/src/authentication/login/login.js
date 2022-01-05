@@ -3,7 +3,7 @@ import styles from "./login.module.css";
 import GoogleLogin from "react-google-login";
 import { ToastContainer, toast } from "react-toastify";
 import { connect } from "react-redux";
-import { loginWithGoogle } from "../Redux/actions/login";
+import { loginWithGoogle } from "../../Redux/actions/login";
 import { useNavigate } from "react-router-dom";
 
 const Login = ({

@@ -180,10 +180,9 @@ const feed = (state = initState, action) => {
       };
 
     case DELETE_POST_SUCCESSFULLY:
-      let id = JSON.parse(action.payload.id);
-      console.log("action payload id ====>", id);
-      let deletePosts = state.posts.filter((item) => item._id !== id);
-      console.log("new posts after deletion===> ", newPosts);
+      console.log("action payload id ====>", action.payload.id);
+      let deletePosts = state.posts.filter((item) => item._id !== action.payload.id);
+      console.log("new posts after deletion===> ", deletePosts);
       return {
         ...state,
         loading: false,

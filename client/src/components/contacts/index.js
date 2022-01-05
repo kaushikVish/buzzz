@@ -10,7 +10,7 @@ const Contacts = ({ friends, viewProfile }) => {
 
   useEffect(() => {
     setFriendList(friends);
-  });
+  },[]);
 
   const handleSearch = (searchItem) => {
     if (searchItem === "") {

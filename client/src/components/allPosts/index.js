@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { toast, ToastContainer } from "react-toastify";
 import styles from "./allPosts.module.css";
 
@@ -190,7 +190,11 @@ const AllPost = ({ story, isAdmin, deletePost }) => {
       </div>
       <div className={styles.content}>
         <div>{story.text}</div>
-        <img src={story.imageUrl} alt="post image" />
+        {story.imageUrl.includes("image") ? (
+          <img src={story.imageUrl} alt="post image" />
+        ) : (
+          <video src={story.imageUrl} height="200px" width="250px" controls />
+        )}
       </div>
       <div className={styles.footer}>
         <button onClick={() => likeHandler(story._id, story.user)}>
@@ -216,8 +220,8 @@ const AllPost = ({ story, isAdmin, deletePost }) => {
       </div>
 
       {toggleComment && userComments.length
-        ? userComments.map((item,index) => (
-            <div key={item.userId+index} className={styles.commentView}>
+        ? userComments.map((item, index) => (
+            <div key={item.userId + index} className={styles.commentView}>
               <img src={item.imageUrl} alt="profile pic" />
               <div className={styles.commentDetails}>
                 <div id={styles.commentUsername}>{item.username}</div>
